@@ -3,7 +3,7 @@
 [rui]: https://github.com/Syrayse
 [rui-pic]: https://github.com/Syrayse.png?size=120
 [susana]: https://github.com/SusanaMarques
-[susana-pic]: https://github.com/Syrayse.png?size=120
+[susana-pic]: https://github.com/SusanaMarques.png?size=120
 
 # Statistical Learning
 
