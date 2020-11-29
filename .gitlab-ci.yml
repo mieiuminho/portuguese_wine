@@ -1,0 +1,40 @@
+image: rstudio/r-base:4.0.3-focal
+
+stages:
+  - build
+  - style
+  - deploy
+
+variables:
+  RENV_CONFIG_REPOS_OVERRIDE: "http://cran.r-project.org"
+  RENV_PATHS_CACHE: ${CI_PROJECT_DIR}/cache
+  RENV_PATHS_LIBRARY: ${CI_PROJECT_DIR}/renv/library
+
+cache:
+  key: ${CI_JOB_NAME}
+  paths:
+    - ${RENV_PATHS_CACHE}
+    - ${RENV_PATHS_LIBRARY}
+
+before_script:
+  - bin/setup
+
+render:
+  stage: build
+  script:
+    - bin/render
+
+formatter:
+  stage: style
+  script:
+    - bin/format
+
+pages:
+  stage: deploy
+  script:
+    - bin/render
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

@@ -18,7 +18,25 @@ The following software is required to be installed on your system:
 
 - [R environment](https://www.r-project.org/)
 
+Setup the project and all dependencies for development.
+
+```sh
+bin/setup
+```
+
 ### :hammer: Development
+
+Render the document analysis.
+
+```sh
+bin/render
+```
+
+Format the R code.
+
+```sh
+bin/format
+```
 
 ### :hammer_and_wrench: Tools
 

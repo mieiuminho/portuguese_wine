@@ -1,6 +1,6 @@
 ---
 title: "Introdução à Aprendizagem Automática"
-output: html_notebook
+output: html_document
 ---
 
 # Data setup
