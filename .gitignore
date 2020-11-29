@@ -35,8 +35,10 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+*.nb.html
 
 ### R.Bookdown Stack ###
 # R package: bookdown caching files
 /*_files/
+
 

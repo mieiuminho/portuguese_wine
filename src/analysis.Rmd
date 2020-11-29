@@ -1,0 +1,32 @@
+---
+title: "Introdução à Aprendizagem Automática"
+output: html_notebook
+---
+
+# Data setup
+
+```{r}
+DATA_PATH <- '../data'
+
+# load data
+red_wine <- read.csv(paste(DATA_PATH, 'winequality-red.csv', sep="/"), sep=';')
+white_wine <- read.csv(paste(DATA_PATH, 'winequality-white.csv', sep="/" ), sep=';')
+```
+
+# Descriptive Statistics
+
+```{r}
+result = sapply(red_wine, class)
+print(result)
+result = sapply(white_wine, class)
+print(result)
+```
+
+
+```{r}
+head(red_wine)
+```
+
+```{r}
+head(white_wine)
+```
