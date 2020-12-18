@@ -3,9 +3,13 @@ title: "Introdução à Aprendizagem Automática"
 output: html_document
 ---
 
+```{r libraries}
+library(magrittr)
+```
+
 # Data setup
 
-```{r}
+```{r setup}
 DATA_PATH <- '../data'
 
 # load data
@@ -15,18 +19,31 @@ white_wine <- read.csv(paste(DATA_PATH, 'winequality-white.csv', sep="/" ), sep=
 
 # Descriptive Statistics
 
-```{r}
-result = sapply(red_wine, class)
-print(result)
-result = sapply(white_wine, class)
-print(result)
-```
+## Red Wine
 
+
+A feel of the data.
 
 ```{r}
 head(red_wine)
 ```
 
+Data types.
+
 ```{r}
-head(white_wine)
+sapply(red_wine, class)
 ```
+
+```{r include=TRUE}
+attach(red_wine)
+```
+
+A média da qualidade do vinho é `r mean(quality)` para o dataset `r search()[2]`, numa escala de 0 a 10.
+
+```{r}
+table(quality)
+```
+```{r}
+plot(quality)
+```
+

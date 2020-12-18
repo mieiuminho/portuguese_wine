@@ -1,3 +1,3 @@
 #!/usr/bin/env Rscript
 
-rmarkdown::render("src/analysis.Rmd", output_dir = "public", output_file = "index.html")
+rmarkdown::render("src/report.Rmd", output_dir = "public", output_file = "index.html")

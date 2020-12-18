@@ -23,11 +23,15 @@ render:
   stage: build
   script:
     - bin/render
+  only:
+    - merge_request
 
 formatter:
   stage: style
   script:
     - bin/format
+  only:
+    - merge_request
 
 pages:
   stage: deploy
