@@ -1,3 +1,29 @@
 #!/usr/bin/env Rscript
 
-rmarkdown::render("src/report.Rmd", output_dir = "public", output_file = "index.html")
+if (!requireNamespace("docopt", quietly = TRUE)){
+    install.packages("docopt")
+}
+
+library(docopt)
+
+'
+Usage:
+  bin/render [--format=<type>, --output=<file>]
+  bin/render (-h | --help)
+  bin/render --version
+
+Options:
+  -h --help          Show this screen.
+  --version          Show version.
+  --format=<type>    Document format output [default: html].
+  --output=<file>    Document name output [default: index.html].
+
+' -> doc
+
+arguments <- docopt(doc, version = 'bin/render 1.0')
+
+rmarkdown::render("analysis/report.Rmd"
+                 , output_format = paste(arguments$'--format', "document", sep="_")
+                 , output_dir = "public"
+                 , output_file = arguments$'--output')
+

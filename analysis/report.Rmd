@@ -1,0 +1,30 @@
+---
+title: "Análise da explicabilidade qualitativa do vinho português"
+subtitle: "Introdução à Aprendizagem Automática"
+author:
+    - Nelson Estevão$^{A76434}$
+    - Rui Reis$^{A84930}$
+    - Susana Marques$^{A84167}$
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+bibliography: bibliography.bib
+---
+
+```{r libraries, include=FALSE}
+library(magrittr)
+```
+
+```{r setup, include=FALSE}
+source('../src/load-data.R')
+```
+
+```{r child = 'business_understanding.Rmd'}
+```
+
+```{r child = 'data_understanding.Rmd'}
+```
+
+# Referências

@@ -1,0 +1,30 @@
+# Descriptive Statistics {#descriptive-statistics}
+
+## Red Wine
+
+A feel of the data.
+
+```{r}
+head(red_wine)
+```
+
+Data types.
+
+```{r}
+sapply(red_wine, class)
+```
+
+```{r include=TRUE}
+attach(red_wine)
+```
+
+A média da qualidade do vinho é `r mean(quality)` para o _dataset_ `r search()[2]`, numa escala de 0 a 10.
+
+```{r, echo=FALSE}
+table_quality = table(quality)
+knitr::kable(table_quality, caption = "Distribuição da qualidade do vinho tinto", label = "tbl:red_wine_quality",  col.names = c("Qualidade", "#"), align="cr")
+```
+
+```{r}
+hist(quality)
+```

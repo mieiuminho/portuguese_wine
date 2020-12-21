@@ -22,7 +22,10 @@ before_script:
 render:
   stage: build
   script:
-    - bin/render
+    - bin/render --format=pdf --output=report.pdf
+  artifacts:
+    paths:
+      - public/*.pdf
   only:
     - merge_request
 

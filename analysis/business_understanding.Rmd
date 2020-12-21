@@ -1,9 +1,3 @@
----
-title: "Fase 1, Crisp-DM - Business Understanding"
-output: html_document
-bibliography: bibliography.bib
----
-
 # Introdução & Contextualização
 
 O vinho é de importância extrema, a vários níveis, para a sociedade portuguesa. Com isto em mente, e tendo em conta a importância económica, conseguimos ver utilidade na utilização de técnicas de aproveitamento de dados de forma a responder questões fulcrais para a comunidade de vinicultores, de forma a que esta consiga produzir vinhos que melhor se adequam à sociedade e competição de mercado existente.
@@ -64,5 +58,3 @@ A partir das especificações acima, conseguimos encontrar as seguintes percepç
 - A quantidade de `residual sugar` afeta a doçura do vinho de forma diretamente proporcional.
 - `chlorides` elevados podem dar um sabor salgado ao vinho, o que desmotiva o consumidor.
 - `pH` do vinho tende a estar entre 2 e 4.
-
-# Referências

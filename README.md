@@ -7,6 +7,10 @@
 
 # Statistical Learning
 
+See the [project
+milestones](https://gitlab.com/mieiuminho/ds/aa1/iae/-/milestones) to learn
+about the project requirements.
+
 ## :rocket: Getting Started
 
 These instructions will get you a copy of the project up and running on your
@@ -29,7 +33,7 @@ bin/setup
 Render the document analysis.
 
 ```sh
-bin/render
+bin/render [--format=html,pdf..., --ouput=index.html,report.pdf...]
 ```
 
 Format the R code.
@@ -42,6 +46,12 @@ bin/format
 
 The recommended Integrated Development Environment (IDE) is
 [RStudio](https://rstudio.com/products/rstudio/).
+
+## :link: References
+
+- [Cross Industry Standard Process for Data Mining (CRISP-DM)](https://www.the-modeling-agency.com/crisp-dm.pdf)
+- [RMarkdown Driven Development (RmdDD)](https://emilyriederer.netlify.app/post/rmarkdown-driven-development/)
+- [RMarkdown Cheat Sheet](https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
 
 ## :busts_in_silhouette: Team
 
