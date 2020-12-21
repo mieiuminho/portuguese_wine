@@ -1,0 +1,68 @@
+---
+title: "Fase 1, Crisp-DM - Business Understanding"
+output: html_document
+bibliography: bibliography.bib
+---
+
+# Introdução & Contextualização
+
+O vinho é de importância extrema, a vários níveis, para a sociedade portuguesa. Com isto em mente, e tendo em conta a importância económica, conseguimos ver utilidade na utilização de técnicas de aproveitamento de dados de forma a responder questões fulcrais para a comunidade de vinicultores, de forma a que esta consiga produzir vinhos que melhor se adequam à sociedade e competição de mercado existente.
+
+Para alcançar esse objetivo, utilizamos dois conjuntos de dados, que representam dois tipos de vinhos, branco e tinto. A nossa análise é feita de forma abstrata na maioria dos pontos, focando-nos, quando necessário, na diferença entre os dois tipos. Os _data sets_ utilizados possuem ambos um conjunto de 12 atributos, com 4898 amostras para o vinho verde e 1599 para o vinho tinto.
+
+Neste documento, e com o intuito de aderir à metodologia CRISP-DM, o nosso objetivo é o de esclarecer a importância de cada atributo em termos de conhecimento de domínio e tentar inferir informação importante que possamos vir a retirar destes.
+
+# Especificação dos Atributos
+
+Como referido anteriormente, os _data sets_ encapsulam um total de 12 atributos, sendo que maioria deles são de uma especificidade técnica fora do nosso conhecimento. Pelo que, uma análise mais aprofundada é devida. De seguida, no formato de `Nome, Tipo : Descrição` apresentamos a nossa análise sobre cada atributo, quando conveniente apresentamos abaixo informação específica adicional. As unidades de cada atributo podem ser verificadas no estudo original de [@Cortez2009ModelingWP].
+
+- `fixed acidity`, numérico: Representa a acidez fixa que é a soma dos ácidos fixos. Tartárico e Málico são os mais importantes. Por princípio, quanto mais elevada for a acidez fixa, mais baixa é a volátil. As bactérias acéticas têm dificuldade em desenvolver-se em meios mais ácidos. [@acidez17]
+  - **Unidade de Medida**: g(tartaric acid)/dm$^3$.
+  
+- `volatile acidity`, numérico: Representa a acidez volátil que é a soma dos ácidos voláteis, que se libertam pela ebulição ou destilação do vinho e traduz o nível de ataque aceto bacteriano ao vinho. Por lei não pode ultrapassar o valor de 1,2 g de ácido acético por litro. [@acidez17]
+  - **Unidade de Medida**: g(acetic acid)/dm$^3$.
+  
+- `citric acid`, numérico: O ácido cítrico é um ácido orgânico fraco, que se pode encontrar nos citrinos. É usado como conservante natural (antioxidante), dando um sabor ácido e refrescante na preparação de alimentos e de bebidas. [@wikicitrico]
+  - **Unidade de Medida**: g/dm$^3$.
+  
+- `residual sugar`, numérico: O açúcar residual refere-se aos açúcares que não foram fermentados no vinho acabado. A quantidade de açúcar residual afeta a doçura do vinho. Na união europeia existe uma correspondência entre o açúcar residual e termos de rotulagem. [@wu20]
+  - **Unidade de Medida**: g/dm$^3$.
+  
+- `chlorides`, numérico: Representa quantidade de sal no vinho, no entanto, concentrações moderadas a grandes de cloretos podem dar ao vinho um sabor salgado que pode desmotivar o consumidor. Quando os níveis desses elementos excedem certos limites, a comercialização e venda do vinho pode não ser permitidas em alguns países. [@COLI2015]
+  - **Unidade de Medida**: g(sodium chloride)/dm$^3$.
+  
+- `free sulfur dioxide`, numérico: Representa a quantidade de dióxido de enxofre não reagido no vinho, por essa razão é capaz de garantir uma ação antioxidante. [@brixx]
+  - **Unidade de Medida**: mg/dm$^3$.
+  
+- `total sulfur dioxide`, numérico: Representa a quantidade de dióxido de enxofre livre mais a que está associada a outros químicos no vinho. Esta quantidade é regulada, por exemplo, pelos Estados Unidos que limita a concentração total de dióxido de enxofre a 350 mg/L. Na EU, o limite legal é de 150mg/L para vinho tinto e 200mg/L para vinho branco. [@moroney18; @brixx]
+  - **Unidade de Medida**: mg/dm$^3$.
+  
+- `density`, numérico: Quociente entre a massa e volume do vinho.
+  - **Unidade de Medida**: g/cm$^3$.
+  
+- `pH`, numérico: A importância da acidez para o vinho não pode ser subestimada, pois contribui com frescor, atua como um agente conservante e ajuda, notavelmente, com a estabilidade microbiana. O pH do vinho tende a estar entre 2 e 4. [@charest19]
+  - **Domínio**: $x \in [0,14]$.
+  
+- `sulphates`, numérico: Aditivo do vinho, age como um anti-microbiano e anti-oxidante. No entanto, não foi detetada informação relevante sobre este atributo.
+  - **Unidade de Medida**: g(potassium sulphate)/dm$^3$.
+  
+- `alcohol`, numérico: Percentagem de total de álcool no vinho.
+  - **Unidade de Medida**: vol.%.
+  - **Domínio**: $x \in [0,100]$.
+  
+- `quality`, nominal: Classe objetivo, varia de 0 a 10 e representa a qualidade do vinho.
+  - **Domínio**: $x \in \{0,1,2,\cdots,10\}$.
+
+# Percepções Valiosas
+
+A partir das especificações acima, conseguimos encontrar as seguintes percepções valiosas sobre o significado dos atributos na lógica de negócio subjacente.
+
+- Quanto mais elevada for a `fixed acidity`, menor é a `volatile acidity`.
+- Bactérias acéticas têm mais dificuldade em desenvolver-se em meios ácidos, `pH < 7`.
+- Em Portugal, a `volatile acidity`, por lei, não pode ultrapassar o valor de 1,2 g de ácido acético por litro.
+- `citric acid` representa um conversante natural, dando um sabor ácido e refrescante.
+- A quantidade de `residual sugar` afeta a doçura do vinho de forma diretamente proporcional.
+- `chlorides` elevados podem dar um sabor salgado ao vinho, o que desmotiva o consumidor.
+- `pH` do vinho tende a estar entre 2 e 4.
+
+# Referências
