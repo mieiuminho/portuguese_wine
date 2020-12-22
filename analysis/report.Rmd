@@ -43,6 +43,9 @@ source('../src/load-data.R')
 ```{r child = 'qda.Rmd'}
 ```
 
+```{r child = 'glm.Rmd'}
+```
+
 ```{r child = 'conclusoes.Rmd'}
 ```
 
