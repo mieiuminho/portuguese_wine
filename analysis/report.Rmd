@@ -10,24 +10,46 @@ output:
     toc: true
     toc_float: true
     df_print: paged
+  pdf_document:
+    fig_caption: true
+    extra_dependencies: ["float"]
 bibliography: bibliography.bib
+lang: pt-PT
 ---
 
-```{r libraries, include=FALSE}
+```{r setup, include=FALSE}
 library(magrittr)
 library(MASS)
 library(caret)
 library(class)
+library(dplyr)
+library(kableExtra)
+
+kable <- function(data, caption=NULL, align=NULL, col.names=NULL) {
+  knitr::kable(data, caption = caption, align = align, col.names = col.names, booktabs = TRUE, digits = 3) %>% 
+    kable_styling(latex_options=c("striped"))
+}
+
+knitr::opts_chunk$set(echo=FALSE)
+
+# https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf
+palette("default")
+
+# https://visme.co/blog/wp-content/uploads/2016/01/24-1024x512.jpg
+colors_classic_retro <- c("#a7414a"
+                         , "#282726"
+                         , "#6a8a82"
+                         , "#a37c27"
+                         , "#563838"
+                        )
+
+palette(colors_classic_retro)
 ```
 
-```{r setup, include=FALSE}
-source('../src/load-data.R')
+```{r child = 'introduction.Rmd'}
 ```
 
-```{r child = 'introducao.Rmd'}
-```
-
-# Dados e Estatísticas
+# Dados e Estatística Descritiva {#sec:data}
 
 ```{r child = 'business_understanding.Rmd'}
 ```
@@ -35,7 +57,16 @@ source('../src/load-data.R')
 ```{r child = 'data_understanding.Rmd'}
 ```
 
-# Modelação dos Dados
+# Modelação e Resultados {#sec:modeling}
+
+```{r include=FALSE}
+source("../src/load-data.R")
+red_wine <- red_wine[red_wine$quality > 3,]
+white_wine <- white_wine[white_wine$quality < 9,]
+red_wine[,12] <- as.factor(red_wine[,12])
+white_wine[,12] <- as.factor(white_wine[,12])
+```
+
 
 ```{r child = 'lda.Rmd'}
 ```
@@ -46,7 +77,7 @@ source('../src/load-data.R')
 ```{r child = 'glm.Rmd'}
 ```
 
-```{r child = 'conclusoes.Rmd'}
+```{r child = 'conclusion.Rmd'}
 ```
 
 # Referências

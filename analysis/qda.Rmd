@@ -1,5 +1,9 @@
 ## Quadratic Discriminant Analysis
 
+```{r include=FALSE}
+source('../src/cross-validation.R')
+```
+
 ### Descrição & Funcionamento
 
 À semelhança do LDA, o QDA também assume que os atributos são retidados de uma distribuição gaussiana. No entanto, e em contrário ao LDA, assume que existe uma matriz de covariância para cada um das classes considerar, sendo que o LDA considera uma matriz de covariância comum a todas as classes. Por esta razão, o QDA apresenta-se como um método alternativo ao LDA e mais flexível. O LDA, no entanto, é preferido para conjuntos com um número de amostras reduzidas, onde reduzir a variância total é crucial.
@@ -39,7 +43,7 @@ qda7it <- c("residual sugar", mean(r_qda_7it))
 col_names_all = c("Ponto de Partido", "1ª Iteração","2ª Iteração","3ª Iteração","4ª Iteração","5ª Iteração","6ª Iteração", "Última Iteração")
 main_df <- data.frame(base_it, qda1it,qda2it,qda3it,qda4it,qda5it,qda6it,qda7it )
 names(main_df) <- col_names_all
-knitr::kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
+kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
 Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
@@ -91,7 +95,7 @@ qda8it <- c("pH", mean(w_qda_8it))
 col_names_all = c("Ponto de Partido", "1ª Iteração","2ª Iteração","3ª Iteração","4ª Iteração","5ª Iteração","6ª Iteração","7ª Iteração", "Última Iteração")
 main_df <- data.frame(base_it, qda1it,qda2it,qda3it,qda4it,qda5it,qda6it,qda7it, qda8it )
 names(main_df) <- col_names_all
-knitr::kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
+kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
 Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:

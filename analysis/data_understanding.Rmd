@@ -1,30 +1,32 @@
 ## Análise Explorativa
 
+```{r include=FALSE}
+source('../src/load-data.R')
+```
+
 A compreensão dos dados é tanto ou mais importante que compreender o negócio em questão. A partir dos dados podemos extrair relações, questões de interesse, bem como desenvolver modelos de inferência coerentes. Esta secção destina-se a agregar a análise dos nossos dados em duas componentes. Passo a passo, abordamos os atributos mais importantes e de que forma, para ambos os data sets considerados, funciona a dinâmica dos mesmos. 
 
 ### Unidades de Medida
 
 Com base no estudo original de [@Cortez2009ModelingWP], e com intuito de permitir observar os atributos de forma mais intuitiva, somos capazes de estabelecer as seguintes unidades de medida e domínios para cada um dos atributos.
 
-```{r echo=FALSE}
-fixed_acidity <- c("g(ácido tartárico)/dm$^3$", "$\\mathfrak{R}$")
-volatile_acidity <- c("g(ácido acético)/dm$^3$", "$[0,1.2]$")
-citric_acid <- c("g/dm$^3$", "$\\mathfrak{R}$")
-residual_sugar <- c("g/dm$^3$", "$\\mathfrak{R}$")
-chlorides <- c("g(cloreto de sódio)/dm$^3$", "$\\mathfrak{R}$")
-free_sulfur_dioxide <- c("mg/dm$^3$", "$\\mathfrak{R}$")
-total_sulfur_dioxide <- c("mg/dm$^3$", "$[0,200]$")
-density <- c("g/cm$^3$", "$\\mathfrak{R}$")
-pH <- c("sem unidade", "[0,14]")
-sulphates <- c("g(sulfato de potássio)/dm$^3$", "$\\mathfrak{R}$")
-alcohol <- c("vol.%", "$[0,100]$")
-quality <- c("sem unidade", "$\\{0,1,2,\\cdots,10\\}$")
-col_names_all = c("Fixed Acidity", "Volatile Acidity", "Citric Acid", "Residual Sugar", "Chlorides", "Free Sulfur Dioxide", "Total Sulfur Dioxide", "Density", "pH", "Sulphates", "Alcohol", "Quality")
-main_df <- data.frame(fixed_acidity,volatile_acidity,citric_acid,residual_sugar,chlorides,free_sulfur_dioxide,total_sulfur_dioxide,density,pH,sulphates,alcohol,quality)
-names(main_df) <- col_names_all
-knitr::kable(t(main_df), col.names=c("Unidade de Medida","Domínio"),caption="Unidades de medida e domínios considerados")
-```
+|                      |             Unidade de Medida |               Domínio |
+| :------------------- | ----------------------------: | --------------------: |
+| Fixed Acidity        |     g(ácido tartárico)/dm$^3$ |        $\mathfrak{R}$ |
+| Volatile Acidity     |       g(ácido acético)/dm$^3$ |             $[0,1.2]$ |
+| Citric Acid          |                      g/dm$^3$ |        $\mathfrak{R}$ |
+| Residual Sugar       |                      g/dm$^3$ |        $\mathfrak{R}$ |
+| Chlorides            |    g(cloreto de sódio)/dm$^3$ |        $\mathfrak{R}$ |
+| Free Sulfur Dioxide  |                     mg/dm$^3$ |        $\mathfrak{R}$ |
+| Total Sulfur Dioxide |                     mg/dm$^3$ |             $[0,200]$ |
+| Density              |                      g/cm$^3$ |        $\mathfrak{R}$ |
+| pH                   |                   sem unidade |                [0,14] |
+| Sulphates            | g(sulfato de potássio)/dm$^3$ |        $\mathfrak{R}$ |
+| Alcohol              |                         vol.% |             $[0,100]$ |
+| Quality              |                   sem unidade | $\{0,1,2,\cdots,10\}$ |
 
+
+: Unidades de medida e domínios considerados
 
 ### Acidez fixa e volátil
 
@@ -40,7 +42,7 @@ A partir dos dados acima somos capazes de perceber que parece existir uma relaç
 
 ```{r}
 corrlat <- cor(white_wine[c("fixed.acidity","volatile.acidity")])
-knitr::kable(corrlat, caption = "Correlação entre atributos acídicos, para o vinho branco", align="cr")
+kable(corrlat, caption = "Correlação entre atributos acídicos, para o vinho branco", align="cr")
 ```
 
 Pela correlação não existe indícios que exista uma relação negativa entre aqueles atributos, no caso do vinho branco. Ao tentarmos visualizar a relação dos dois atributos na forma de um gráfico, obtemos o seguinte resultado.
@@ -169,7 +171,7 @@ De forma a introduzir um nível mais técnico, utilizamos uma correlação para 
 
 ```{r}
 corr_white <- cor(white_wine[,-c(1,2,6,7,10,11,12)])
-knitr::kable(corr_white, caption = "Correlação entre atributos de interesse, para o vinho branco", align="cr")
+kable(corr_white, caption = "Correlação entre atributos de interesse, para o vinho branco", align="cr")
 ```
 Partindo da tabela acima, conseguimos evidenciar que a única relação que verdadeiramente se evidencia como forte correlação positiva é entre o açúcar residual e a densidade. Poderá vir a ser interessante remover um destes atributos na tentiva de perceber como os modelos respondem.
 

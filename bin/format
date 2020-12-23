@@ -1,7 +1,8 @@
 #!/usr/bin/env Rscript
 
-if (!requireNamespace("formatR", quietly = TRUE)){
-    install.packages("formatR")
-}
+source('scripts/utils.R')
 
-formatR::tidy_dir(recursive = TRUE)
+install("formatR")
+
+formatR::tidy_dir("scripts", recursive = TRUE)
+formatR::tidy_dir("src", recursive = TRUE)

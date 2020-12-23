@@ -55,6 +55,6 @@ The recommended Integrated Development Environment (IDE) is
 
 ## :busts_in_silhouette: Team
 
-| [![Nelson][nelson-pic]][nelson] | [![Nelson][rui-pic]][rui] | [![Susana][susana-pic]][susana] |
-| :-----------------------------: | :-----------------------: | :-----------------------------: |
-|    [Nelson Estevão][nelson]     |      [Rui Reis][rui]      |    [Susana Marques][susana]     |
+| [![Nelson][nelson-pic]][nelson] | [![Rui][rui-pic]][rui] | [![Susana][susana-pic]][susana] |
+| :-----------------------------: | :--------------------: | :-----------------------------: |
+|    [Nelson Estevão][nelson]     |    [Rui Reis][rui]     |    [Susana Marques][susana]     |

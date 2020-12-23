@@ -1,0 +1,20 @@
+# Introdução & Contextualização {#sec:intro}
+
+O vinho é de importância extrema, a vários níveis, para a sociedade
+portuguesa. Com isto em mente, e tendo em conta a importância económica,
+conseguimos ver utilidade na utilização de técnicas de aproveitamento de
+dados de forma a responder questões fulcrais para a comunidade de
+vinicultores, de forma a que esta consiga produzir vinhos que melhor se
+adequam à sociedade e competição de mercado existente.
+
+Para alcançar esse objetivo, utilizamos dois conjuntos de dados, que
+representam dois tipos de vinhos, branco e tinto. A nossa análise é feita de
+forma abstrata na maioria dos pontos, focando-nos, quando necessário, na
+diferença entre os dois tipos. Os _data sets_ utilizados possuem ambos um
+conjunto de 12 atributos, com 4898 amostras para o vinho verde e 1599 para o
+vinho tinto.
+
+Neste documento, e com o intuito de aderir à metodologia CRISP-DM, o nosso
+objetivo é o de esclarecer a importância de cada atributo em termos de
+conhecimento de domínio e tentar inferir informação importante que possamos
+vir a retirar destes.

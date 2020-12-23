@@ -1,7 +1,23 @@
 #!/usr/bin/env Rscript
 
-if (!requireNamespace("renv", quietly = TRUE)){
-    install.packages("renv")
-}
+source("scripts/utils.R")
 
 renv::restore()
+
+packages <-
+    c("renv"
+      , "bookdown"
+      , "caret"
+      , "devtools"
+      , "dplyr"
+      , "effects"
+      , "ggplot2"
+      , "gtsummary"
+      , "magrittr"
+    )
+
+
+install("plyr")
+
+cat("Installing packages...\n")
+ignore <- plyr::llply(packages, install, .progress = "text")

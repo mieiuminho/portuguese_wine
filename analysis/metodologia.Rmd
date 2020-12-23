@@ -8,6 +8,6 @@ Ao longo deste trabalho foi utilizada a metodologia CRISP-DM, a qual visa transm
 - **Modelação** - Aqui tentamos utilizar os diferentes modelos ao nosso dispor e avaliar qual é o mais adequado no contexto em que estamos inseridos. Neste estudo abordamos os modelos: Regressão Logística, LDA, QDA, K-Nearest Neighbours.
 - **Avaliação** - Para além dos diferentes modelos, é necessário uma boa forma de os avaliar. O *cross validation* é o método de seleção para a avaliação da qualidade do modelo.
 
-![Metodologia CRISP-DM](../docs/img/crispdm.jpeg)
+![Metodologia CRISP-DM](../docs/img/crispdm.jpeg){width=10cm}
 
 Claro que, todo este funcionamento é iterativo e, por vezes, pode ser necessário voltar atrás e tomar um conjunto de decisões diferentes que permitam obter um melhor resultado.

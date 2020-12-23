@@ -1,29 +1,29 @@
 #!/usr/bin/env Rscript
 
-if (!requireNamespace("docopt", quietly = TRUE)){
-    install.packages("docopt")
-}
+source('scripts/utils.R')
 
+install('docopt')
 library(docopt)
 
-'
+'Render Script
+
 Usage:
-  bin/render [--format=<type>, --output=<file>]
-  bin/render (-h | --help)
-  bin/render --version
+bin/render [--format=<type>, --output=<file>]
+bin/render (-h | --help)
+bin/render --version
 
 Options:
-  -h --help          Show this screen.
-  --version          Show version.
-  --format=<type>    Document format output [default: html].
-  --output=<file>    Document name output [default: index.html].
+-h --help          Show this screen.
+--version          Show version.
+--format=<type>    Document format output [default: html].
+--output=<file>    Document name output [default: index.html].
 
-' -> doc
+You should always run this from project root.' -> doc
 
-arguments <- docopt(doc, version = 'bin/render 1.0')
+arguments <- docopt(doc, version = 'bin/render 1.0\n')
 
 rmarkdown::render("analysis/report.Rmd"
-                 , output_format = paste(arguments$'--format', "document", sep="_")
-                 , output_dir = "public"
-                 , output_file = arguments$'--output')
+                  , output_format = paste(arguments$'--format', "document", sep = "_")
+                  , output_dir = "public"
+                  , output_file = arguments$'--output')
 

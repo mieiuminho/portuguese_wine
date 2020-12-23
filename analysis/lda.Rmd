@@ -1,5 +1,9 @@
 ## Linear Discriminant Analysis
 
+```{r include=FALSE}
+source('../src/cross-validation.R')
+```
+
 ### Descrição & Funcionamento
 
 Apesar das suas vantagens, a regressão logística apresenta maus resultado para classes mal separadas, pos este torna-se bastante instável. O LDA tende a ser mais estável que a regressão logística e é normalmente utilizado para problemas de classificação com mais de duas classes de resposta. 
@@ -43,7 +47,7 @@ lda7it <- c("chlorides", mean(r_lda_7it))
 col_names_all = c("Ponto de Partido", "1ª Iteração","2ª Iteração","3ª Iteração","4ª Iteração","5ª Iteração","6ª Iteração", "Última Iteração")
 main_df <- data.frame(base_it, lda1it,lda2it,lda3it,lda4it,lda5it,lda6it,lda7it )
 names(main_df) <- col_names_all
-knitr::kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
+kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
 Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
@@ -94,7 +98,7 @@ lda7it <- c("chlorides", mean(w_lda_7it))
 col_names_all = c("Ponto de Partido", "1ª Iteração","2ª Iteração","3ª Iteração","4ª Iteração","5ª Iteração","6ª Iteração", "Última Iteração")
 main_df <- data.frame(base_it, lda1it,lda2it,lda3it,lda4it,lda5it,lda6it,lda7it )
 names(main_df) <- col_names_all
-knitr::kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
+kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
 Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:

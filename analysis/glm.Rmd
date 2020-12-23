@@ -1,0 +1,209 @@
+## Regressão Logística {#sec:glm}
+
+```{r include=FALSE}
+source('../src/load-data.R')
+```
+
+### Descrição e Funcionamento
+
+Quando a variável dependente é uma variável _dummy_ (também conhecida como
+variável binária), ou seja, assume o valor 0 ou o valor 1, o modelo de
+probabilidade linear tem duas falhas principais que são as probabilidades
+ajustadas podem ser menores que zero ou maiores que um e o efeito parcial de
+qualquer variável explicativa é constante [@wooldridge2015].
+
+Essas falhas podem ser superadas usando modelos mais sofisticados, como por
+exemplo, um modelo logit (criado a partir de uma regressão logística). Em vez
+de modelar a variável dependente diretamente, a regressão logística modela a
+probabilidade de pertencer a uma categoria específica [@james2013].
+
+O modelo calcula $p(X) = P(Y = 1 | X)$, variando entre 0 e 1. Para cumprir este
+requisito podemos partir da equação \ref{eq:starting_point}.
+
+\begin{equation}\label{eq:starting_point}
+p(X) = \frac {e^{\beta_0 + \beta_1 X} } { 1 + e^{\beta_0 + \beta_1 X} }
+\end{equation}
+
+Podemos chegar a uma equação equivalente sem a fração, ver equação
+\ref{eq:odds}. A quantidade $\frac {p(X)} {1 - p(X)}$ são as _odds_ de um evento
+acontecer. Estas podem tomar qualquer valor entre 0 e $\infty$. Valores próximos
+de 0 indicam baixa probabilidade e valores próximos de $\infty$ indicam muito
+elevada probabilidade.
+
+\begin{equation}\label{eq:odds}
+\frac{p(X)}{1-p(X)} = e^{\beta_0 + \beta_1 X}
+\end{equation}
+
+Na equação anterior os paramentos não são lineares com as _odds_. Se aplicarmos
+a função do logaritmo natural em ambos os lados, obtemos a equação
+\ref{eq:logit}. Continua a não ser linear uma vez que o modelo não corresponde a
+uma reta afim. No entanto, continuamos a ler, 
+
+\begin{equation}\label{eq:logit}
+\log{\frac{p(X)}{1-p(X)}} = e^{\beta_0 + \beta_1 X}
+\end{equation}
+
+### Casos de Estudo
+
+```{r echo=FALSE}
+THRESHOLD_GOOD_QUALITY = 6
+```
+
+No caso dos dados em análise, geramos a partir do campo `quality` uma variável
+binária que indica se  o vinho é de boa ou má qualidade. A escolha da classificação
+vai depender do limiar definido. Pela análise da variabilidade dos dados na
+secção \ref{sec:data} ^[TODO check this] iremos definir como limiar de qualidade do vinho o
+valor `r THRESHOLD_GOOD_QUALITY`. Assim, vinhos com esta classificação ou
+mais serão considerados de boa qualidade.
+
+```{r echo=FALSE}
+red_wine$is_good <- ifelse(red_wine$quality >= THRESHOLD_GOOD_QUALITY, 1, 0)
+white_wine$is_good <- ifelse(white_wine$quality >= THRESHOLD_GOOD_QUALITY, 1, 0)
+```
+
+```{r echo=FALSE}
+do_pie_chart_with <- function(data, title="Vinho Verde") {
+  pie(data
+     , labels = paste(c("Mau (", "Bom ("), round(data/sum(data)*100), "%)", sep="")
+     , main = title
+     , border = "white"
+     , cex = 0.8
+     , col = palette())
+}
+```
+
+```{r pie_chart_logit, echo=FALSE, fig.cap = "\\label{fig:pie_chart_logit}Gráfico com distribuição binária da qualidade"}
+par(mfrow=c(1,2))
+
+do_pie_chart_with(table(red_wine$is_good)
+            , title="Vinho Tinto")
+
+do_pie_chart_with(table(white_wine$is_good)
+            , title="Vinho Branco")
+```
+
+A classificação foi guardada numa nova coluna chamada `is_good`. O valor 1
+representa que estamos perante um vinho de boa qualidade e o valor representa o
+contrário. A distribuição dos dados neste caso pode ser observado na figura
+\ref{fig:pie_chart_logit} ^[TODO check this].
+
+
+```{r include=FALSE}
+source('../src/cross-validation.R')
+```
+
+#### Vinho Branco
+
+```{r include=FALSE}
+white_wine$quality <- NULL
+
+model <- glm(is_good ~ ., family = binomial, data = white_wine)
+summary(model)
+
+white_wine$citric.acid <- NULL
+white_wine$total.sulfur.dioxide <- NULL
+white_wine$alcohol <- NULL
+white_wine$chlorides <- NULL
+
+white_wine_logit_model <- glm(is_good ~ ., family = binomial, data = white_wine)
+summary(white_wine_logit_model)
+model$coefficients['fixed.acidity']
+```
+
+```{r include=FALSE}
+results = cross_validation_k_fold_glm(white_wine, k = 10)
+```
+
+```{r echo=FALSE}
+# Average accuracy of the model
+mean(results$accuracy)
+mean(results$false_positive_rate)
+mean(results$false_negative_rate)
+```
+
+```{r echo=FALSE, fig.cap="Distribuição da precisão do modelo para Vinho Branco"}
+par(mfcol = c(1, 2))
+
+hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()[4], border = 'white', density = 255, main = "")
+
+boxplot(results$accuracy, col = palette()[4], border = 'black', horizontal = F, ylab = 'Precisão')
+```
+
+```{r echo=FALSE, fig.cap="Taxas de falsos positivos e negativos do modelo para Vinho Branco"}
+par(mfcol = c(1, 2))
+
+# Plots of fpr and fnr
+#hist(results$false_positive_rate, xlab = '% of fnr', ylab = 'Freq', main = 'FPR', col = palette()[3], border = 'white', density = 255)
+#hist(results$false_negative_rate, xlab = '% of fnr', ylab = 'Freq', main = 'FNR', col = palette()[1], border = 'white', density = 255)
+boxplot(results$false_positive_rate, xlab = '% Falsos Positivos', horizontal = TRUE, col = palette()[3], border = 'black', density = 255)
+boxplot(results$false_negative_rate, xlab = '% Falsos Negativos', horizontal = TRUE, col = palette()[1], border = 'black', density = 255)
+```
+
+#### Vinho Tinto
+
+```{r include=FALSE}
+red_wine$quality <- NULL
+
+model <- glm(is_good ~ ., family = binomial, data = red_wine)
+summary(model)
+
+red_wine$fixed.acidity <- NULL
+red_wine$residual.sugar <- NULL
+red_wine$density <- NULL
+red_wine$citric.acid <- NULL
+red_wine$pH <- NULL
+
+red_wine_logit_model <- glm(is_good ~ ., family = binomial, data = red_wine)
+summary(red_wine_logit_model)
+```
+
+```{r echo=FALSE}
+kable(summary(red_wine_logit_model)$coefficients)
+```
+
+```{r include=FALSE}
+results = cross_validation_k_fold_glm(red_wine, k = 10)
+```
+
+A precisão é `r mean(results$accuracy)`.
+
+```{r echo=FALSE}
+# Average accuracy of the model
+mean(results$accuracy)
+mean(results$false_positive_rate)
+mean(results$false_negative_rate)
+```
+
+```{r echo=FALSE, fig.cap="Distribuição da precisão do modelo para o Vinho Tinto"}
+par(mfcol = c(1, 2))
+
+hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()[4], border = 'white', density = 255, main = "")
+
+boxplot(results$accuracy, col = palette()[4], border = 'black', horizontal = F, ylab = 'Precisão')
+```
+
+```{r echo=FALSE, fig.cap="Taxas de falsos positivos e negativos do modelo para o Vinho Tinto"}
+par(mfcol = c(1, 2))
+
+# Plots of fpr and fnr
+#hist(results$false_positive_rate, xlab = '% of fnr', ylab = 'Freq', main = 'FPR', col = palette()[3], border = 'white', density = 255)
+#hist(results$false_negative_rate, xlab = '% of fnr', ylab = 'Freq', main = 'FNR', col = palette()[1], border = 'white', density = 255)
+boxplot(results$false_positive_rate, xlab = '% Falsos Positivos', horizontal = TRUE, col = palette()[3], border = 'black', density = 255)
+boxplot(results$false_negative_rate, xlab = '% Falsos Negativos', horizontal = TRUE, col = palette()[1], border = 'black', density = 255)
+```
+
+### Conclusões
+
+```{r echo=FALSE, warning=FALSE}
+library(gtsummary)
+t_white <- tbl_regression(white_wine_logit_model, exponentiate = TRUE)
+
+t_red <- tbl_regression(red_wine_logit_model, exponentiate = TRUE)
+
+tbl_merge(
+  tbls = list(t_white, t_red),
+  tab_spanner = c("**Vinho Branco**", "**Vinho Tinto**")
+) %>% as_kable_extra(booktabs = TRUE, caption = "Modelo Logit em formato de Odds") %>% kable_styling(latex_options=c("striped"))
+```
+
+Notas sobre os modelos.
