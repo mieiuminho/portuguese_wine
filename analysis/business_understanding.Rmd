@@ -1,4 +1,4 @@
-# Introdução & Contextualização
+# Compreensão de Negócio
 
 O vinho é de importância extrema, a vários níveis, para a sociedade portuguesa. Com isto em mente, e tendo em conta a importância económica, conseguimos ver utilidade na utilização de técnicas de aproveitamento de dados de forma a responder questões fulcrais para a comunidade de vinicultores, de forma a que esta consiga produzir vinhos que melhor se adequam à sociedade e competição de mercado existente.
 
@@ -6,7 +6,7 @@ Para alcançar esse objetivo, utilizamos dois conjuntos de dados, que representa
 
 Neste documento, e com o intuito de aderir à metodologia CRISP-DM, o nosso objetivo é o de esclarecer a importância de cada atributo em termos de conhecimento de domínio e tentar inferir informação importante que possamos vir a retirar destes.
 
-# Especificação dos Atributos
+## Especificação dos Atributos
 
 Como referido anteriormente, os _data sets_ encapsulam um total de 12 atributos, sendo que maioria deles são de uma especificidade técnica fora do nosso conhecimento. Pelo que, uma análise mais aprofundada é devida. De seguida, no formato de `Nome, Tipo : Descrição` apresentamos a nossa análise sobre cada atributo, quando conveniente apresentamos abaixo informação específica adicional. As unidades de cada atributo podem ser verificadas no estudo original de [@Cortez2009ModelingWP].
 
@@ -22,7 +22,7 @@ Como referido anteriormente, os _data sets_ encapsulam um total de 12 atributos,
 - `residual sugar`, numérico: O açúcar residual refere-se aos açúcares que não foram fermentados no vinho acabado. A quantidade de açúcar residual afeta a doçura do vinho. Na união europeia existe uma correspondência entre o açúcar residual e termos de rotulagem. [@wu20]
   - **Unidade de Medida**: g/dm$^3$.
   
-- `chlorides`, numérico: Representa quantidade de sal no vinho, no entanto, concentrações moderadas a grandes de cloretos podem dar ao vinho um sabor salgado que pode desmotivar o consumidor. Quando os níveis desses elementos excedem certos limites, a comercialização e venda do vinho pode não ser permitidas em alguns países. [@COLI2015]
+- `chlorides`, numérico: Representa quantidade de sal no vinho, no entanto, concentrações moderadas a grandes de cloretos podem dar ao vinho um sabor salgado que pode desmotivar o consumidor. Quando os níveis desses elementos excedem certos limites, a comercialização e venda do vinho pode não ser permitida em alguns países. [@COLI2015]
   - **Unidade de Medida**: g(sodium chloride)/dm$^3$.
   
 - `free sulfur dioxide`, numérico: Representa a quantidade de dióxido de enxofre não reagido no vinho, por essa razão é capaz de garantir uma ação antioxidante. [@brixx]
@@ -47,14 +47,14 @@ Como referido anteriormente, os _data sets_ encapsulam um total de 12 atributos,
 - `quality`, nominal: Classe objetivo, varia de 0 a 10 e representa a qualidade do vinho.
   - **Domínio**: $x \in \{0,1,2,\cdots,10\}$.
 
-# Percepções Valiosas
+## Percepções Valiosas
 
 A partir das especificações acima, conseguimos encontrar as seguintes percepções valiosas sobre o significado dos atributos na lógica de negócio subjacente.
 
 - Quanto mais elevada for a `fixed acidity`, menor é a `volatile acidity`.
 - Bactérias acéticas têm mais dificuldade em desenvolver-se em meios ácidos, `pH < 7`.
 - Em Portugal, a `volatile acidity`, por lei, não pode ultrapassar o valor de 1,2 g de ácido acético por litro.
-- `citric acid` representa um conversante natural, dando um sabor ácido e refrescante.
+- `citric acid` representa um conservante natural, dando um sabor ácido e refrescante.
 - A quantidade de `residual sugar` afeta a doçura do vinho de forma diretamente proporcional.
 - `chlorides` elevados podem dar um sabor salgado ao vinho, o que desmotiva o consumidor.
 - `pH` do vinho tende a estar entre 2 e 4.

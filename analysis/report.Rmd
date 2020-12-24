@@ -21,10 +21,19 @@ library(magrittr)
 source('../src/load-data.R')
 ```
 
+```{r child = 'introducao.Rmd'}
+```
+
+```{r child = 'metodologia.Rmd'}
+```
+
 ```{r child = 'business_understanding.Rmd'}
 ```
 
 ```{r child = 'data_understanding.Rmd'}
+```
+
+```{r child = 'conclusoes.Rmd'}
 ```
 
 # Referências
