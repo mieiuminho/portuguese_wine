@@ -68,14 +68,16 @@ red_wine[,12] <- as.factor(red_wine[,12])
 white_wine[,12] <- as.factor(white_wine[,12])
 ```
 
+```{r child = 'glm.Rmd'}
+```
+
+```{r child = 'knn.Rmd'}
+```
 
 ```{r child = 'lda.Rmd'}
 ```
 
 ```{r child = 'qda.Rmd'}
-```
-
-```{r child = 'glm.Rmd'}
 ```
 
 ```{r child = 'conclusion.Rmd'}
