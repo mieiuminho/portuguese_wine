@@ -8,6 +8,18 @@
 
 ### Vinho Tinto
 
+```{r}
+TrainData <- red_wine[,1:11]
+TrainClasses <- red_wine[,c("quality")]
+lda.fit = train(quality ~ ., data=red_wine, method="lda",
+                trControl = trainControl(method = "cv"))
+
+lda.fit = lda(quality ~ ., data = red_wine, CV = TRUE)
+table(lda.fit$class, red_wine$quality)
+mean(lda.fit$class == red_wine$quality)
+```
+
+
 #### sasioc
 
 ### Vinho Branco
