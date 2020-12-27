@@ -1,0 +1,10 @@
+#!/usr/bin/env Rscript
+
+if (!requireNamespace("spelling", quietly = TRUE)){
+    install.packages("spelling")
+}
+
+report_files <- list.files("analysis", pattern = "\\.(Rnw|Rmd)$", full.names = TRUE)
+
+spelling::spell_check_files(report_files, lang = 'pt_PT')
+
