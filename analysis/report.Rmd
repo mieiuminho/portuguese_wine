@@ -15,6 +15,8 @@ bibliography: bibliography.bib
 
 ```{r libraries, include=FALSE}
 library(magrittr)
+library(MASS)
+library(caret)
 ```
 
 ```{r setup, include=FALSE}
@@ -34,6 +36,12 @@ source('../src/load-data.R')
 ```
 
 ```{r child = 'conclusoes.Rmd'}
+```
+
+```{r child = 'lda.Rmd'}
+```
+
+```{r child = 'qda.Rmd'}
 ```
 
 # Referências

@@ -1,0 +1,16 @@
+# Linear Discriminant Analysis
+
+## Descrição
+
+## Funcionamento
+
+## Casos de Estudo
+
+### Vinho Tinto
+
+#### sasioc
+
+### Vinho Branco
+
+## Conclusões
+
