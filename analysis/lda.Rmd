@@ -1,28 +1,59 @@
 # Linear Discriminant Analysis
 
-## Descrição
+## Descrição & Funcionamento
 
-## Funcionamento
+Apesar das suas vantagens, a regressão logística apresenta maus resultado para classes mal separadas, pos este torna-se bastante instável. O LDA tende a ser mais estável que a regressão logística e é normalmente utilizado para problemas de classificação com mais de duas classes de resposta. 
+
+No algoritmo de LDA, é assumido que os atributos são retirados de uma distribuição normal, com médias específicas por classe e um matriz de covariância comum entre todos os atributos.
 
 ## Casos de Estudo
 
 ### Vinho Tinto
 
-```{r}
-TrainData <- red_wine[,1:11]
-TrainClasses <- red_wine[,c("quality")]
-lda.fit = train(quality ~ ., data=red_wine, method="lda",
-                trControl = trainControl(method = "cv"))
+Ao analisarmos o data set num enquadramento de LDA com cross-validation, podemos observar que obtemos um modelo com as seguintes distribuição de erros ao longo das 10 folds executadas.
 
-lda.fit = lda(quality ~ ., data = red_wine, CV = TRUE)
-table(lda.fit$class, red_wine$quality)
-mean(lda.fit$class == red_wine$quality)
+```{r}
+r_errors_lda_base <- cross_validation_w_lda(red_wine, 10, quality ~ .)
+boxplot(r_errors_lda_base)
+```
+Conseguimos perceber que existe uma grande dispersão entre todos os folds. No melhor dos folds, obtemos uma accuracy perto de 65%. No entanto, e com o intuito de melhorar o desempenho do modelo, tentamos remover atributos e perceber os resultados obtidos.
+
+```{r}
+r_errors_lda_sem_fsd <- cross_validation_w_lda(red_wine, 10, quality ~ . - free.sulfur.dioxide)
+boxplot(r_errors_lda_sem_fsd)
 ```
 
+O elemento retirado acima surge da fase de compreensão de dados, onde percebemos a existência de variância de erros não constantes entre os atributos de *total sulfur dioxide* e *free sulfur dioxide*, também conseguimos desenvolver um modelo que, ao aplicar uma escala adequada, torna a variância dos erros constante, o que implica que existe uma forte correlação positiva entre as duas variáveis. Pelo que uma delas pode ser removida. E, ao remover este atributo, não foi detetada uma alteração significativa da precisão do nosso modelo. Em comparação, podemos tentar desenvolver um modelo que só utiliza a acidez fixa como preditor.
 
-#### sasioc
+```{r}
+r_errors_lda_com_fa <- cross_validation_w_lda(red_wine, 10, quality ~ fixed.acidity)
+boxplot(r_errors_lda_base, r_errors_lda_sem_fsd, r_errors_lda_com_fa)
+```
+
+Em experiências subsequentes, chegamos à conclusão de que o melhor modelo é aquele que não considera o atributo *free sulfur dioxide*, que produz uma média de erro de:
+
+```{r}
+mean(r_errors_lda_sem_fsd)
+```
 
 ### Vinho Branco
 
+Tentamos um modelo com os mesmos atributos considerados anteriormente e uma comparação entre estes.
+
+```{r}
+w_errors_lda_base <- cross_validation_w_lda(white_wine, 10, quality ~ .)
+w_errors_lda_sem_fsd <- cross_validation_w_lda(white_wine, 10, quality ~ . - free.sulfur.dioxide)
+w_errors_lda_com_fa <- cross_validation_w_lda(white_wine, 10, quality ~ fixed.acidity)
+boxplot(w_errors_lda_base, w_errors_lda_sem_fsd, w_errors_lda_com_fa)
+```
+
+De igual forma, o melhor resultado é aquele que não considera o atributo *free sulfur dioxide*. No entanto, é notável que os os resultados obtidos no data set de vinho branco são muito piores que aqueles obtidos no data set de vinho tinto, com uma média de erros de:
+
+```{r}
+mean(w_errors_lda_sem_fsd)
+```
+
 ## Conclusões
+
+Como conclusão, percebemos que os modelos que não consideram o atributo *free sulfur dioxide* são os mais vantajosos em ambos os data sets. Sendo que no data set de vinho tinto produz resultado significativamente melhores.
 

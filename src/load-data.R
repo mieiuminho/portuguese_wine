@@ -46,7 +46,7 @@ form_random_groups <- function(df, k) {
   return (group_ls)
 }
 
-cross_validation <- function(df, k) {
+cross_validation_w_qda <- function(df, k) {
   errors <- array(0, dim = k)
   folds <- form_random_groups(df, k)
 
@@ -70,6 +70,37 @@ cross_validation <- function(df, k) {
     }
 
     model <- qda(quality ~ ., data =train_data)
+    pred <- predict(model, test_data);
+    errors[idx] <- 1 - mean(pred$class == test_data$quality)
+  }
+
+  return (errors)
+}
+
+cross_validation_w_lda <- function(df, k, modelused) {
+  errors <- array(0, dim = k)
+  folds <- form_random_groups(df, k)
+
+  for(idx in 1:k) {
+    test_data <- folds[[idx]]
+
+    # pick first fold
+    for(ff in 1:k) {
+      if(ff != idx) {
+        train_data <- folds[[ff]]
+        idx_main_fold <- ff
+        break
+      }
+    }
+
+    # append other folds
+    for(ff in 1:k) {
+      if(ff != idx && ff != idx_main_fold) {
+        train_data <- rbind(train_data, folds[[ff]])
+      }
+    }
+
+    model <- lda(modelused, data =train_data)
     pred <- predict(model, test_data);
     errors[idx] <- 1 - mean(pred$class == test_data$quality)
   }

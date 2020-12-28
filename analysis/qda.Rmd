@@ -1,14 +1,10 @@
 # Quadratic Discriminant Analysis
 
-## Descrição
-
-## Funcionamento
+## Descrição & Funcionamento
 
 ## Casos de Estudo
 
 ### Vinho Tinto
-
-#### sasioc
 
 ### Vinho Branco
 

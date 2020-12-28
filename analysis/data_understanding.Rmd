@@ -123,8 +123,8 @@ Perceber a distribuição da classe objetivo é igualmente importante a compreen
 
 ```{r}
 par(mfrow=c(1,2))
-hist(white_wine$quality, main="Histograma para Vinho Verde", xlab="Qualidade")
-hist(red_wine$quality, main="Histograma para Vinho Tinto", xlab="Qualidade")
+barplot(table(white_wine$quality), main="Histograma para Vinho Verde", xlab="Qualidade")
+barplot(table(red_wine$quality), main="Histograma para Vinho Tinto", xlab="Qualidade")
 ```
 Que nos permitem perceber que existe uma péssima representatividade da classe objetivo, tendo em conta que a cardinalidade desta é de 10. Existem até qualidade que nunca se verificam. Assume-se que, por os dados terem sido recolhidos de forma sensorial, recorrendo a júris, existe um bias implícito associado. É aceitável considerar que os júris tendem a preferir não dar classificações extrema, nem muito boas, nem muito más, o que se verifica na prática, em ambos os data sets, pois os valores mais frequentes são o 5 e 6. Isto implica outro problema, nomeadamente, a má separação inter-classe devido a se tratar de um problema que depende da subjetividade do humano. É razoável assumir que 2 júris podem dar classificações completamente apostas a um mesmo vinho que, do ponto de vista laboratorial, seria considerado ótimo.
 
