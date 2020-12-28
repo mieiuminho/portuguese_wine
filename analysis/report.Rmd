@@ -17,6 +17,7 @@ bibliography: bibliography.bib
 library(magrittr)
 library(MASS)
 library(caret)
+library(class)
 ```
 
 ```{r setup, include=FALSE}

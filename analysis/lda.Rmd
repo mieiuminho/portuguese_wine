@@ -53,6 +53,8 @@ De igual forma, o melhor resultado é aquele que não considera o atributo *free
 mean(w_errors_lda_sem_fsd)
 ```
 
+
+
 ## Conclusões
 
 Como conclusão, percebemos que os modelos que não consideram o atributo *free sulfur dioxide* são os mais vantajosos em ambos os data sets. Sendo que no data set de vinho tinto produz resultado significativamente melhores.

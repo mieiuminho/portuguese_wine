@@ -107,3 +107,33 @@ cross_validation_w_lda <- function(df, k, modelused) {
 
   return (errors)
 }
+
+cross_validation_w_knn <- function(df, k, kParam) { # quality ~ .
+  errors <- array(0, dim = k)
+  folds <- form_random_groups(df, k)
+
+  for(idx in 1:k) {
+    test_data <- folds[[idx]]
+
+    # pick first fold
+    for(ff in 1:k) {
+      if(ff != idx) {
+        train_data <- folds[[ff]]
+        idx_main_fold <- ff
+        break
+      }
+    }
+
+    # append other folds
+    for(ff in 1:k) {
+      if(ff != idx && ff != idx_main_fold) {
+        train_data <- rbind(train_data, folds[[ff]])
+      }
+    }
+
+    pred <- knn(train_data, test_data, train_data[,12], k=kParam)
+    errors[idx] <- 1 - mean(pred == test_data$quality)
+  }
+
+  return (errors)
+}
