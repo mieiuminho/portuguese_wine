@@ -46,7 +46,7 @@ form_random_groups <- function(df, k) {
   return (group_ls)
 }
 
-cross_validation_w_qda <- function(df, k) {
+cross_validation_w_qda <- function(df, k, modelused) {
   errors <- array(0, dim = k)
   folds <- form_random_groups(df, k)
 
@@ -69,7 +69,7 @@ cross_validation_w_qda <- function(df, k) {
       }
     }
 
-    model <- qda(quality ~ ., data =train_data)
+    model <- qda(modelused, data =train_data)
     pred <- predict(model, test_data);
     errors[idx] <- 1 - mean(pred$class == test_data$quality)
   }

@@ -1,14 +1,14 @@
-# Linear Discriminant Analysis
+## Linear Discriminant Analysis
 
-## Descrição & Funcionamento
+### Descrição & Funcionamento
 
 Apesar das suas vantagens, a regressão logística apresenta maus resultado para classes mal separadas, pos este torna-se bastante instável. O LDA tende a ser mais estável que a regressão logística e é normalmente utilizado para problemas de classificação com mais de duas classes de resposta. 
 
 No algoritmo de LDA, é assumido que os atributos são retirados de uma distribuição normal, com médias específicas por classe e um matriz de covariância comum entre todos os atributos.
 
-## Casos de Estudo
+### Casos de Estudo
 
-### Vinho Tinto
+#### Vinho Tinto
 
 Ao analisarmos o data set num enquadramento de LDA com cross-validation, podemos observar que obtemos um modelo com as seguintes distribuição de erros ao longo das 10 folds executadas.
 
@@ -36,7 +36,7 @@ Em experiências subsequentes, chegamos à conclusão de que o melhor modelo é 
 mean(r_errors_lda_sem_fsd)
 ```
 
-### Vinho Branco
+#### Vinho Branco
 
 Tentamos um modelo com os mesmos atributos considerados anteriormente e uma comparação entre estes.
 
@@ -55,7 +55,13 @@ mean(w_errors_lda_sem_fsd)
 
 
 
-## Conclusões
+### Conclusões
 
-Como conclusão, percebemos que os modelos que não consideram o atributo *free sulfur dioxide* são os mais vantajosos em ambos os data sets. Sendo que no data set de vinho tinto produz resultado significativamente melhores.
+Em ambos os casos, e através da aplicação de um método de *backward stepwise selection*, que inicialmente considera todos os atributos e incremental remove outros atributos, fomos capazes de determinar o modelo ótimo, que considera desnecessários os seguintes atributos:
+
+* `free sulfur dioxide`
+* `pH`
+* `fixed acidity`
+
+
 

@@ -1,12 +1,123 @@
-# Quadratic Discriminant Analysis
+## Quadratic Discriminant Analysis
 
-## Descrição & Funcionamento
+### Descrição & Funcionamento
 
-## Casos de Estudo
+À semelhança do LDA, o QDA também assume que os atributos são retidados de uma distribuição gaussiana. No entanto, e em contrário ao LDA, assume que existe uma matriz de covariância para cada um das classes considerar, sendo que o LDA considera uma matriz de covariância comum a todas as classes. Por esta razão, o QDA apresenta-se como um método alternativo ao LDA e mais flexível. O LDA, no entanto, é preferido para conjuntos com um número de amostras reduzidas, onde reduzir a variância total é crucial.
 
-### Vinho Tinto
+### Casos de Estudo
 
-### Vinho Branco
+No estilo da metodologia aplicada com a secção de LDA, predetendemos efetuar *backwards feature selection* de forma a aferir os atributos que mais influenciam o modelo produzido, minimizando a média de erros e variância. Assim sendo, para ambos os conjuntos começamos com um modelo que utiliza todos os atributos e incrementalmente reduzimos o número de elementos considerados, desde que estes forneçam melhorias ao nosso modelo. No entanto, podem existir casos em que a diferença de média de erros original e da versão reduzida é residual, nesse caso optamos pelo modelo mais simples. Para estes casos de estudo foi utilizado *cross validation* com $k = 10$ *folds*.
 
-## Conclusões
+#### Vinho Tinto
+
+Considerando um modelo inicial que contempla todos os atributos, somo capazes de obter a seguinte média de erro. Logo, qualquer modelo mais simples que produz uma média menor ou muito semelhante, desde que mais simples, será preferido.
+
+```{r echo=FALSE}
+r_qda_total = cross_validation_w_qda(red_wine, 10, quality ~ .)
+mean(r_qda_total)
+```
+Os restantes passos são feitos em iterações, sendo que uma iteração corresponde aos passos necessários para descobrir o primeiro elemento que leva ao modelo com menor erro. Na iteração seguinte, partimos desse modelo e voltamos a remover todos os atributos até encontrarmos o novo candidato. O caso de paragem corresponde à iteração em que nenhum atributo candidato seja identificado, na qual chegamos ao modelo simplista com menor erro.
+
+Abaixo apresentado surge a tabela relativa aos resultados obtidos em cada iteração, indicando a respectiva iteração, atributo removido e média do modelo resultante.
+
+```{r echo=FALSE}
+r_qda_1it = cross_validation_w_qda(red_wine, 10, quality ~ . - pH )
+r_qda_2it = cross_validation_w_qda(red_wine, 10, quality ~ . - pH - chlorides )
+r_qda_3it = cross_validation_w_qda(red_wine, 10, quality ~ . - pH - chlorides - free.sulfur.dioxide)
+r_qda_4it = cross_validation_w_qda(red_wine, 10, quality ~ . - pH - chlorides - free.sulfur.dioxide - density)
+r_qda_5it = cross_validation_w_qda(red_wine, 10, quality ~ . - pH - chlorides - free.sulfur.dioxide - density - fixed.acidity)
+r_qda_6it = cross_validation_w_qda(red_wine, 10, quality ~ . - pH - chlorides - free.sulfur.dioxide - density - fixed.acidity - citric.acid)
+r_qda_7it = cross_validation_w_qda(red_wine, 10, quality ~ . - pH - chlorides - free.sulfur.dioxide - density - fixed.acidity - citric.acid - residual.sugar)
+
+base_it <- c("-", mean(r_qda_total))
+qda1it <- c("pH", mean(r_qda_1it))
+qda2it <- c("chlorides", mean(r_qda_2it))
+qda3it <- c("free sulfur dioxide", mean(r_qda_3it))
+qda4it <- c("density", mean(r_qda_4it))
+qda5it <- c("fixed acidity", mean(r_qda_5it))
+qda6it <- c("citric acid", mean(r_qda_6it))
+qda7it <- c("residual sugar", mean(r_qda_7it))
+col_names_all = c("Ponto de Partido", "1ª Iteração","2ª Iteração","3ª Iteração","4ª Iteração","5ª Iteração","6ª Iteração", "Última Iteração")
+main_df <- data.frame(base_it, qda1it,qda2it,qda3it,qda4it,qda5it,qda6it,qda7it )
+names(main_df) <- col_names_all
+knitr::kable(t(main_df), col.names=c("Atributo Removido","Precisão Obtida"),caption="Resumo da aplicação de backwards feature selection")
+```
+
+Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
+
+```{r echo = FALSE}
+print((mean(r_qda_total) - mean(r_qda_7it))*100)
+```
+O que representa uma melhoria significativa, garantindo também um modelo simplista que melhor será capaz de evitar casos de overfitting. Podemos também observar os erros ao longo das várias iterações da seguinte forma:
+
+```{r echo = FALSE}
+boxplot(r_qda_total,r_qda_1it,r_qda_2it,r_qda_3it,r_qda_4it,r_qda_5it,r_qda_6it,r_qda_7it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI", "UI"))
+```
+Em suma, para o conjunto de dados do vinho tinto, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
+
+* `volatile.acidity` 
+* `total.sulfur.dioxide` 
+* `sulphates` 
+* `alcohol` 
+
+#### Vinho Branco
+
+De igual forma, partindo de um modelo que considera todos os atributos existentes, aplicamos a mesma metodologia de forma incremental. Inicialmente, com o modelo completo, obtemos o seguinte resultado.
+
+```{r echo=FALSE}
+w_qda_total = cross_validation_w_qda(white_wine, 10, quality ~ .)
+mean(w_qda_total)
+```
+Com esta metodologia, fomos capazes de obter a seguinte tabela que resume os resultados obtidos. Denota-se que o atributo mais significativo mostrou-se ser a densidade, enquanto que nos vinhos vermelhos tende a ser a percentagem de álcool.
+
+```{r echo=FALSE}
+w_qda_1it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides )
+w_qda_2it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides - alcohol)
+w_qda_3it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides - alcohol - citric.acid)
+w_qda_4it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides - alcohol - citric.acid - free.sulfur.dioxide)
+w_qda_5it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides - alcohol - citric.acid - free.sulfur.dioxide - total.sulfur.dioxide)
+w_qda_6it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides - alcohol - citric.acid - free.sulfur.dioxide - total.sulfur.dioxide - sulphates)
+w_qda_7it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides - alcohol - citric.acid - free.sulfur.dioxide - total.sulfur.dioxide - sulphates - fixed.acidity)
+w_qda_8it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides - alcohol - citric.acid - free.sulfur.dioxide - total.sulfur.dioxide - sulphates - fixed.acidity - pH)
+
+base_it <- c("-", mean(w_qda_total))
+qda1it <- c("chlorides", mean(w_qda_1it))
+qda2it <- c("alcohol", mean(w_qda_2it))
+qda3it <- c("citric acid", mean(w_qda_3it))
+qda4it <- c("free sulfur dioxide", mean(w_qda_4it))
+qda5it <- c("total sulfur dioxide", mean(w_qda_5it))
+qda6it <- c("sulphates", mean(w_qda_6it))
+qda7it <- c("fixed acidity", mean(w_qda_7it))
+qda8it <- c("pH", mean(w_qda_8it))
+col_names_all = c("Ponto de Partido", "1ª Iteração","2ª Iteração","3ª Iteração","4ª Iteração","5ª Iteração","6ª Iteração","7ª Iteração", "Última Iteração")
+main_df <- data.frame(base_it, qda1it,qda2it,qda3it,qda4it,qda5it,qda6it,qda7it, qda8it )
+names(main_df) <- col_names_all
+knitr::kable(t(main_df), col.names=c("Atributo Removido","Precisão Obtida"),caption="Resumo da aplicação de backwards feature selection")
+```
+
+Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
+
+```{r echo = FALSE}
+print((mean(w_qda_total) - mean(w_qda_8it))*100)
+```
+
+A melhoria é notável e conseguimos compreender estes dados da seguinte forma:
+
+```{r echo = FALSE}
+boxplot(w_qda_total,w_qda_1it,w_qda_2it,w_qda_3it,w_qda_4it,w_qda_5it,w_qda_6it,w_qda_7it,w_qda_8it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI","7ºI", "UI"))
+```
+Em suma, para o conjunto de dados do vinho branco, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
+
+* `volatile.acidity` 
+* `residual.sugar` 
+* `density` 
+
+### Conclusões
+
+Através do método de QDA, conseguimos chegar a modelos distintos que utilizam diferentes atributos para, dentro do seu data set, prever os resultados de forma ótima. Com este modelo, conseguimos modelar os comportamentos e gostos dos provadores de vinho e conseguimos denotar que:
+
+* Em *vinhos tintos* o nível de álcool é o atributo com mais impacto na previsão da qualidade, sendo o atributo de densidade ignorado. O dióxido de enxofre e sulfatos tem um impacto direto na qualidade sensorial do vinho. Denota-se também que a quantidade de sulfato, que se considerava ser apenas para efeitos anti-oxidantes, tem impacto na qualidade, o que pode indiciar uma alteração do sabor.
+* Em *vinhos brancos* a densidade é o atributo com mais impacto na previsão da qualidade, sendo o atributo de álcool ignorado. A acidez e açúcar residual, em conjunto com as densidade, permitem diretamente modelar a qualidade. 
+
+Os resultados acima permitem chegar à conclusão que em vinhos brancos o mais importante é a doçura e acidez. Enquanto que em vinhos tintos, os fatores mais importantes são o nível do álcool e quantidade de dióxido de enxofre.
 
