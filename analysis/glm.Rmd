@@ -37,11 +37,16 @@ elevada probabilidade.
 Na equação anterior os paramentos não são lineares com as _odds_. Se aplicarmos
 a função do logaritmo natural em ambos os lados, obtemos a equação
 \ref{eq:logit}. Continua a não ser linear uma vez que o modelo não corresponde a
-uma reta afim. No entanto, continuamos a ler, 
+uma reta afim. No entanto, já foi possível remover o expoente.
 
 \begin{equation}\label{eq:logit}
-\log{\frac{p(X)}{1-p(X)}} = e^{\beta_0 + \beta_1 X}
+\log{\left(\frac{p(X)}{1-p(X)}\right)} = \beta_0 + \beta_1 X
 \end{equation}
+
+O lado esquerdo da equação \ref{eq:logit} chama-se _log-odds_ ou _logit_. O que
+quer dizer que o acréscimo de uma unidade em $X$, multiplica $e^{\beta}$ as
+_odds_ tendo em conta o valor atual de $X$, isto porque a equação não é linear
+[@james2013].
 
 ### Casos de Estudo
 
@@ -107,18 +112,34 @@ white_wine$chlorides <- NULL
 
 white_wine_logit_model <- glm(is_good ~ ., family = binomial, data = white_wine)
 summary(white_wine_logit_model)
-model$coefficients['fixed.acidity']
 ```
+
+O modelo será da forma apresentado na equação \ref{eq:logit}. A modelação para o
+vinho branco exigiu a remoção de atributos com p-valores não significativos. A
+lista é a seguinte:
+
+- `citric.acid`
+- `total.sulfur.dioxide`
+- `alcohol`
+- `chlorides`
+
+```{r echo=FALSE}
+kable(summary(white_wine_logit_model)$coefficients, col.names=c("Estimate", "Std. Error", "z-value", "Pr(>|z|"), caption = "Modelo Logistico para o Vinho Branco")
+```
+
+A equação final é apresentada em \ref{eq:white_wine_logit} e o valores dos
+parametros podem ser consultados na tabela anterior.
+
+\begin{equation}\label{eq:white_wine_logit}
+\begin{split}
+\log{\left(\frac{p(X)}{1-p(X)}\right)} = \beta_0 + \beta_1 \cdot fixed.acidity 
+                            + \beta_2 \cdot volatile.acidity + \beta_3 \cdot residual.sugar \\
+                            +\ \beta_4 \cdot free.sulfur.dioxide + \beta_5 \cdot density
+\end{split}
+\end{equation}
 
 ```{r include=FALSE}
 results = cross_validation_k_fold_glm(white_wine, k = 10)
-```
-
-```{r echo=FALSE}
-# Average accuracy of the model
-mean(results$accuracy)
-mean(results$false_positive_rate)
-mean(results$false_negative_rate)
 ```
 
 ```{r echo=FALSE, fig.cap="Distribuição da precisão do modelo para Vinho Branco"}
@@ -126,7 +147,7 @@ par(mfcol = c(1, 2))
 
 hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()[4], border = 'white', density = 255, main = "")
 
-boxplot(results$accuracy, col = palette()[4], border = 'black', horizontal = F, ylab = 'Precisão')
+boxplot(results$accuracy, col = palette()[4], border = 'black', horizontal = T, xlab = 'Precisão')
 ```
 
 ```{r echo=FALSE, fig.cap="Taxas de falsos positivos e negativos do modelo para Vinho Branco"}
@@ -138,6 +159,12 @@ par(mfcol = c(1, 2))
 boxplot(results$false_positive_rate, xlab = '% Falsos Positivos', horizontal = TRUE, col = palette()[3], border = 'black', density = 255)
 boxplot(results$false_negative_rate, xlab = '% Falsos Negativos', horizontal = TRUE, col = palette()[1], border = 'black', density = 255)
 ```
+
+Por forma a testar o modelo apresentado na equação \ref{eq:white_wine_logit} foi
+feito _k-fold cross validation_, com $k = 10$. A precisão verificada foi de
+`r round(mean(results$accuracy) * 100, 1)`%, com uma taxa de falsos positivos de 
+`r round(mean(results$false_positive_rate) * 100, 1)`% e de falsos negativos de 
+`r round(mean(results$false_negative_rate) * 100, 1)`%.
 
 #### Vinho Tinto
 
@@ -157,29 +184,45 @@ red_wine_logit_model <- glm(is_good ~ ., family = binomial, data = red_wine)
 summary(red_wine_logit_model)
 ```
 
+No vinho tinto foram removidos diferentes atributos dos que foram removidos para
+o modelo logístico do vinho branco. Os atributos removidos foram os seguintes:
+
+- `citric.acid`
+- `fixed.acidity`
+- `density`
+- `residual.sugar`
+- `pH`
+
 ```{r echo=FALSE}
-kable(summary(red_wine_logit_model)$coefficients)
+kable(summary(red_wine_logit_model)$coefficients, col.names=c("Estimate", "Std. Error", "z-value", "Pr(>|z|"), caption = "Modelo Logistico para o Vinho Tinto")
 ```
+
+Assim sendo, os resultados apresentados na tabela anterior correspondem à
+equação \ref{eq:red_wine_logit}.
+
+\begin{equation}\label{eq:red_wine_logit}
+\begin{split}
+\log{\left(\frac{p(X)}{1-p(X)}\right)} = \beta_0 + \beta_1 \cdot volatile.acidity 
+                            + \beta_2 \cdot chlorides + \beta_3 \cdot total.sulfur.dioxide \\
+                            +\ \beta_4 \cdot free.sulfur.dioxide
+\end{split}
+\end{equation}
 
 ```{r include=FALSE}
 results = cross_validation_k_fold_glm(red_wine, k = 10)
 ```
 
-A precisão é `r mean(results$accuracy)`.
-
-```{r echo=FALSE}
-# Average accuracy of the model
-mean(results$accuracy)
-mean(results$false_positive_rate)
-mean(results$false_negative_rate)
-```
+Também para este modelo foi usado _k-fold cross validation_, obtendo a precisão 
+de `r round(mean(results$accuracy) * 100, 1)`%, com uma taxa de falsos positivos de 
+`r round(mean(results$false_positive_rate) * 100, 1)`% e de falsos negativos de 
+`r round(mean(results$false_negative_rate) * 100, 1)`%.
 
 ```{r echo=FALSE, fig.cap="Distribuição da precisão do modelo para o Vinho Tinto"}
 par(mfcol = c(1, 2))
 
 hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()[4], border = 'white', density = 255, main = "")
 
-boxplot(results$accuracy, col = palette()[4], border = 'black', horizontal = F, ylab = 'Precisão')
+boxplot(results$accuracy, col = palette()[4], border = 'black', horizontal = T, xlab = 'Precisão')
 ```
 
 ```{r echo=FALSE, fig.cap="Taxas de falsos positivos e negativos do modelo para o Vinho Tinto"}
@@ -194,8 +237,7 @@ boxplot(results$false_negative_rate, xlab = '% Falsos Negativos', horizontal = T
 
 ### Conclusões
 
-```{r echo=FALSE, warning=FALSE}
-library(gtsummary)
+```{r logit_both, echo=FALSE, warning=FALSE}
 t_white <- tbl_regression(white_wine_logit_model, exponentiate = TRUE)
 
 t_red <- tbl_regression(red_wine_logit_model, exponentiate = TRUE)
@@ -203,7 +245,19 @@ t_red <- tbl_regression(red_wine_logit_model, exponentiate = TRUE)
 tbl_merge(
   tbls = list(t_white, t_red),
   tab_spanner = c("**Vinho Branco**", "**Vinho Tinto**")
-) %>% as_kable_extra(booktabs = TRUE, caption = "Modelo Logit em formato de Odds") %>% kable_styling(latex_options=c("striped"))
+) %>% as_kable_extra(booktabs = TRUE,
+                     caption = "\\label{tbl:logit_both}Modelo Logit em formato de Odds"
+) %>% kable_styling(latex_options=c("striped"))
 ```
 
-Notas sobre os modelos.
+Através da tabela \ref{tbl:logit_both} ^[TODO check this] é possível concluir
+que para o vinho branco o pH e os sulfatos têm o maior impacto positivo no
+vinho, ou seja, são os que aumentam mais as chances de ser um bom vinho.
+No sentido oposto, a densidade e a acidez volátil são os os atributos que
+têm o maior impacto negativo.
+
+Já no vinho tinto, o álcool e os sulfatos são os atributos com maior impacto
+positivo e a acidez volátil e os cloretos são os atributos com maior impacto negativo nas chances de ser um vinho de boa qualidade.
+
+Os restantes atributos apresentados são significativos no modelo, no entanto
+pequenas variações não são muito significativas nas chances.

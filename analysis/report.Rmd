@@ -24,6 +24,7 @@ library(caret)
 library(class)
 library(dplyr)
 library(kableExtra)
+library(gtsummary)
 
 kable <- function(data, caption=NULL, align=NULL, col.names=NULL) {
   knitr::kable(data, caption = caption, align = align, col.names = col.names, booktabs = TRUE, digits = 3) %>% 

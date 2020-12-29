@@ -6,7 +6,6 @@ renv::restore()
 
 packages <-
     c("renv"
-      , "bookdown"
       , "caret"
       , "devtools"
       , "dplyr"

@@ -55,11 +55,13 @@ Como se pode observar pela tabela acima, a aplicação do método de *backwards 
 ```{r echo = FALSE}
 print((mean(r_lda_total) - mean(r_lda_7it))*100)
 ```
+
 O que representa uma diferença insignificante na precisão do modelo. No entanto, obtemos um modelo muito mais simples que produz resultos muito similares, o que nos indica que este é o conjunto de variáveis explicativas da variação da qualidade. Podemos observar os resultados da variação dos erros da seguinte forma, que nos permitem perceber que, mesmo alterando atributos, os erros continuam iguais.
 
-```{r echo = FALSE}
+```{r fig.cap="Distribuição dos erros utilizando _backwards features selection_"}
 boxplot(r_lda_total,r_lda_1it,r_lda_2it,r_lda_3it,r_lda_4it,r_lda_5it,r_lda_6it,r_lda_7it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI", "UI"))
 ```
+
 Em suma, para o conjunto de dados do vinho tinto, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
 
 * `volatile.acidity` 
@@ -106,11 +108,13 @@ Como se pode observar pela tabela acima, a aplicação do método de *backwards 
 ```{r echo = FALSE}
 print((mean(w_lda_total) - mean(w_lda_7it))*100)
 ```
+
 Como sucede no caso do LDA no data set do vinho tinto, a diferença é insignificante, pelo que preferimos o modelo mais simples. Podemos compreender esta variação nos erros pelo seguinte gráfico.
 
-```{r echo = FALSE}
+```{r echo = FALSE, fig.cap="Distribuição dos erros utilizando _backwards feature selection_"}
 boxplot(w_lda_total,w_lda_1it,w_lda_2it,w_lda_3it,w_lda_4it,w_lda_5it,w_lda_6it,w_lda_7it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI", "UI"))
 ```
+
 Em suma, para o conjunto de dados do vinho branco, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
 
 * `volatile.acidity` 
@@ -126,8 +130,3 @@ Através do método de LDA, conseguimos chegar a modelos distintos que utilizam 
 * Em *vinhos brancos* o nível de álcool é o atributo com mais impacto na previsão da qualidade, a única diferença de atributos significativos responde ao açúcar residual. Nos vinhos brancos, este atributo é significativo, enquanto que nos vinhos tintos é preferido o dióxido de enxofre total.
 
 Os resultados acima permitem chegar à conclusão que em vinhos brancos o mais importante é a doçura e acidez. Enquanto que em vinhos tintos, os fatores mais importantes são o nível do álcool e quantidade de dióxido de enxofre.
-
-
-
-
-

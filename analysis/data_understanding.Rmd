@@ -25,14 +25,13 @@ Com base no estudo original de [@Cortez2009ModelingWP], e com intuito de permiti
 | Alcohol              |                         vol.% |             $[0,100]$ |
 | Quality              |                   sem unidade | $\{0,1,2,\cdots,10\}$ |
 
-
 : Unidades de medida e domínios considerados
 
 ### Acidez fixa e volátil
 
 Como aferido pelo conhecimento de domínio, somos endereçados para o facto de que tende a existir uma forte correlação negativa, ou inversamente proporcional, entre a acidez fixa e volátil. Numa primeira tentativa, podemos obter as seguintes informações sobre os dados.
 
-```{r}
+```{r fig.cap="Comparação entre tipos de acidez"}
 par(mfrow=c(1,2))
 boxplot(white_wine$fixed.acidity, red_wine$fixed.acidity, names=c("branco","tinto"),ylab=c("acidez fixa"))
 boxplot(white_wine$volatile.acidity, red_wine$volatile.acidity, names=c("branco","tinto"),ylab=c("acidez volátil"))
@@ -47,8 +46,8 @@ kable(corrlat, caption = "Correlação entre atributos acídicos, para o vinho b
 
 Pela correlação não existe indícios que exista uma relação negativa entre aqueles atributos, no caso do vinho branco. Ao tentarmos visualizar a relação dos dois atributos na forma de um gráfico, obtemos o seguinte resultado.
 
-```{r}
-plot(white_wine$fixed.acidity, white_wine$volatile.acidity)
+```{r fig.cap="Visualização da relação entre os tipos de acidez"}
+plot(white_wine$fixed.acidity, white_wine$volatile.acidity, xlab="Acidez fixa", ylab="Acidez volátil")
 ```
 
 Facilmente verificamos que, apesar de haver uma grande concentração de pontos no gráfico, estes não definem nenhuma forma especifica. O que só nos confirma que o conhecimento que foi obtido pelo conhecimento de domínio não se verifica de forma significativa nos dados. Entre muitos fatores, isto pode-se dever ao tipo de *sampling* do vinho que foi utilizado. Se forem considerados só vinhos de uma determinada região, é evidente que podem existir caraterísticas mais especificas que depois não se verificam na população global.
@@ -57,10 +56,10 @@ Facilmente verificamos que, apesar de haver uma grande concentração de pontos 
 
 Apesar de não ser tão evidente, conseguimos perceber, pela figura abaixo, que à medida que o sal no vinho aumenta, então a avaliação da qualidade desse vinho tende a ser menor, para ambos os tipos.
 
-```{r}
+```{r fig.cap="Representatividade dos Cloretos por tipo de Qualidade"}
 par(mfrow=c(1,2))
-plot(white_wine$chlorides, white_wine$quality, xlab="Cloretos, Vinho Branco", ylab="Qualidade")
-plot(red_wine$chlorides, red_wine$quality, xlab="Cloretos, Vinho Tinto", ylab="Qualidade")
+plot(white_wine$chlorides, white_wine$quality, xlab="Cloretos", main="Vinho Branco", ylab="Qualidade")
+plot(red_wine$chlorides, red_wine$quality, xlab="Cloretos", main = "Vinho Tinto", ylab="Qualidade")
 ```
 
 ### Dióxido de Enxofre Livre e Total
@@ -71,13 +70,13 @@ A relação entre os diferentes tipos de dióxido de enxofre parece ser intuitiv
 
 Começemos por analisar o caso do vinho tinto, como podemos verificar na figura seguinte. Podemos verificar a existência de uma relação parecida a linear, no entanto, com um formato afunilado. Este formato afunilado pode ser um sinal de heteroscedasticidade, caso onde se verifica variâncias não constantes nos erros. Este problema poder vir a ser uma fonte medidas de erro com elevado valor no futuro, especialmente em modelos que partem do pressuposto de um variância constante, como acontece na regressão linear. 
 
-```{r}
+```{r fig.cap="Visualização da relação entre os tipos de dióxido de enxofre"}
 plot(red_wine$free.sulfur.dioxide, red_wine$total.sulfur.dioxide, xlab="Dióxido de Enxofre Livre", ylab="Dióxido de Enxofre Total")
 ```
 
 Se tentarmos fazer uma simples regressão linear, rapidamente percebemos que o modelo possui alguma dificuldade em se adaptar a dados com variâncias não constantes nos erros. Como tal, a reta resultante não aparenta espelhar bem a relação com os dados.
 
-```{r}
+```{r fig.cap="Visualização da relação entre os tipos de dióxido de enxofre com regressão linear"}
 plot(red_wine$free.sulfur.dioxide, red_wine$total.sulfur.dioxide, xlab="Dióxido de Enxofre Livre", ylab="Dióxido de Enxofre Total")
 model1 <- lm(total.sulfur.dioxide ~ free.sulfur.dioxide, data = red_wine)
 abline(model1, col="red")
@@ -91,7 +90,7 @@ sqrt(mean(model1$residuals^2))
 
 Uma possível solução corresponde a mudar a escala utilizada, normalmente para logarítmica ou raiz quadrada. No nosso caso, escolhemos raiz quadrada por produzir os melhores resultados. Como podemos ver abaixo, a reta resultante da regressão linear parece acompanhar de forma mais adequada os dados. Deixou de se verificar a existência de uma forma afunilada.
 
-```{r}
+```{r fig.cap="Visualização da relação entre a raiz quadrada dos tipos de dióxido de enxofre com regressão linear"}
 plot(sqrt(red_wine$free.sulfur.dioxide), sqrt(red_wine$total.sulfur.dioxide), xlab="Raiz quadrada do Dióxido de Enxofre Livre", ylab="Raiz quadrada do Dióxido de Enxofre Total")
 model2 <- lm(sqrt(total.sulfur.dioxide) ~ sqrt(free.sulfur.dioxide), data =red_wine)
 abline(model2, col="red")
@@ -109,13 +108,13 @@ O que representa uma melhoria significativa aos resultados anteriormente obtidos
 
 Para o conjunto do vinho branco conseguimos denotar uma figura também afunilada, evidenciando o mesmo tipo de problemas. Podemos também detetar a existência de um *high leverage point* à direita. Idealmente, deveriamos ter em consideração o impacto deste tipo de pontos. Porém, como estamos a fazer uma análise apenas à heteroscedasticidade, achamos desnecessário ter em consideração todas as componentes.
 
-```{r}
+```{r fig.cap="Visualização da relação entre os tipos de dióxido de enxofre"}
 plot(white_wine$free.sulfur.dioxide, white_wine$total.sulfur.dioxide, xlab="Dióxido de Enxofre Livre", ylab="Dióxido de Enxofre Total")
 ```
 
 Ao tentarmos utilizar regressão linear, conseguimos perceber que o linha gerada acompanha muito mal os dados.
 
-```{r}
+```{r fig.cap="Visualização da relação entre os tipos de dióxido de enxofre com regressão linear"}
 plot(white_wine$free.sulfur.dioxide, white_wine$total.sulfur.dioxide, xlab="Dióxido de Enxofre Livre", ylab="Dióxido de Enxofre Total")
 model1 <- lm(total.sulfur.dioxide ~ free.sulfur.dioxide, data = white_wine)
 abline(model1, col="red")
@@ -129,7 +128,7 @@ sqrt(mean(model1$residuals^2))
 
 De igual forma ao caso do vinho tinto, podemos alterar a escala dos nosso atributos para evitar o problema das variâncias não-constantes.
 
-```{r}
+```{r fig.cap="Visualização da relação entre a raiz quadrada dos tipos de dióxido de enxofre com regressão linear"}
 plot(sqrt(white_wine$free.sulfur.dioxide), sqrt(white_wine$total.sulfur.dioxide), xlab="Raiz quadrada do Dióxido de Enxofre Livre", ylab="Raiz quadrada do Dióxido de Enxofre Total")
 model2 <- lm(sqrt(total.sulfur.dioxide) ~ sqrt(free.sulfur.dioxide), data =white_wine)
 abline(model2, col="red")
@@ -141,18 +140,19 @@ O modelo acima permite-nos calcular um RSE de:
 sqrt(mean(model2$residuals^2))
 ```
 
-A melhoria é extremamente significativa, e facilmente conseguimos perceber que, partindo de uma situação com um problema de heteroscedasticidade tão grave, conseguimos obter uma melhoria de performance cerca de 20 vezes melhor. Com este informação, conseguimos confirmar a existência e a solução para o problema de heteroscedasticidade neste par de atributos. O que podera vir a ser relevante em modelos especificos.
+A melhoria é extremamente significativa, e facilmente conseguimos perceber que, partindo de uma situação com um problema de heteroscedasticidade tão grave, conseguimos obter uma melhoria de performance cerca de 20 vezes melhor. Com este informação, conseguimos confirmar a existência e a solução para o problema de heteroscedasticidade neste par de atributos. O que poderá vir a ser relevante em modelos específicos.
 
 ### Qualidade
 
 Perceber a distribuição da classe objetivo é igualmente importante a compreender os outros atributos. Quando enfrentados com a variável de qualidade somos atingidos pelos seguinte gráficos.
 
-```{r}
+```{r hist-quality, fig.cap="Distribuição da Qualidade entre vinhos"}
 par(mfrow=c(1,2))
 barplot(table(white_wine$quality), main="Histograma para Vinho Verde", xlab="Qualidade")
 barplot(table(red_wine$quality), main="Histograma para Vinho Tinto", xlab="Qualidade")
 ```
-Que nos permitem perceber que existe uma péssima representatividade da classe objetivo, tendo em conta que a cardinalidade desta é de 10. Existem até qualidade que nunca se verificam. Assume-se que, por os dados terem sido recolhidos de forma sensorial, recorrendo a júris, existe um bias implícito associado. É aceitável considerar que os júris tendem a preferir não dar classificações extrema, nem muito boas, nem muito más, o que se verifica na prática, em ambos os data sets, pois os valores mais frequentes são o 5 e 6. Isto implica outro problema, nomeadamente, a má separação inter-classe devido a se tratar de um problema que depende da subjetividade do humano. É razoável assumir que 2 júris podem dar classificações completamente apostas a um mesmo vinho que, do ponto de vista laboratorial, seria considerado ótimo.
+
+Que nos permitem perceber que existe uma péssima representatividade da classe objetivo, tendo em conta que a cardinalidade desta é de 10. Existem até qualidade que nunca se verificam. Assume-se que, por os dados terem sido recolhidos de forma sensorial, recorrendo a júris, existe um bias implícito associado. É aceitável considerar que os júris tendem a preferir não dar classificações extrema, nem muito boas, nem muito más, o que se verifica na prática, em ambos os _data sets_, pois os valores mais frequentes são o 5 e 6. Isto implica outro problema, nomeadamente, a má separação inter-classe devido a se tratar de um problema que depende da subjetividade do humano. É razoável assumir que 2 júris podem dar classificações completamente apostas a um mesmo vinho que, do ponto de vista laboratorial, seria considerado ótimo.
 
 Posto isto, conseguimos prever *a priori* que qualquer modelo desenvolvimento deverá possuir uma *accuracy* pequena, devido, principalmente, ao problema da má separação entre as classes.
 
@@ -164,15 +164,17 @@ Com o intuito de tentar abordar atributos que achamos que não foram devidamente
 - Parece existir uma relação entre o sal e a densidade.
 - Apesar de não tão óbvia, parece também existir uma relação entre o ácido cítrico e o sal.
 
-```{r}
+```{r fig.cap="Visualização da relação entre os vários atributos"}
 pairs(white_wine[,-c(1,2,6,7,10,11,12)], lower.panel = NULL)
 ```
+
 De forma a introduzir um nível mais técnico, utilizamos uma correlação para tentar determinar se estas relações existem de facto.
 
 ```{r}
 corr_white <- cor(white_wine[,-c(1,2,6,7,10,11,12)])
 kable(corr_white, caption = "Correlação entre atributos de interesse, para o vinho branco", align="cr")
 ```
+
 Partindo da tabela acima, conseguimos evidenciar que a única relação que verdadeiramente se evidencia como forte correlação positiva é entre o açúcar residual e a densidade. Poderá vir a ser interessante remover um destes atributos na tentiva de perceber como os modelos respondem.
 
 ### Questões Relevantes

@@ -53,9 +53,10 @@ print((mean(r_qda_total) - mean(r_qda_7it))*100)
 ```
 O que representa uma melhoria significativa, garantindo também um modelo simplista que melhor será capaz de evitar casos de overfitting. Podemos também observar os erros ao longo das várias iterações da seguinte forma:
 
-```{r echo = FALSE}
+```{r fig.cap="Distribuição dos erros utilizando _backwards feature selection_"}
 boxplot(r_qda_total,r_qda_1it,r_qda_2it,r_qda_3it,r_qda_4it,r_qda_5it,r_qda_6it,r_qda_7it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI", "UI"))
 ```
+
 Em suma, para o conjunto de dados do vinho tinto, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
 
 * `volatile.acidity` 
@@ -71,6 +72,7 @@ De igual forma, partindo de um modelo que considera todos os atributos existente
 w_qda_total = cross_validation_w_qda(white_wine, 10, quality ~ .)
 mean(w_qda_total)
 ```
+
 Com esta metodologia, fomos capazes de obter a seguinte tabela que resume os resultados obtidos. Denota-se que o atributo mais significativo mostrou-se ser a densidade, enquanto que nos vinhos vermelhos tende a ser a percentagem de álcool.
 
 ```{r echo=FALSE}
@@ -106,9 +108,10 @@ print((mean(w_qda_total) - mean(w_qda_8it))*100)
 
 A melhoria é notável e conseguimos compreender estes dados da seguinte forma:
 
-```{r echo = FALSE}
+```{r echo = FALSE, fig.cap="Distribuição dos erros utilizando _backwards feature selection_"}
 boxplot(w_qda_total,w_qda_1it,w_qda_2it,w_qda_3it,w_qda_4it,w_qda_5it,w_qda_6it,w_qda_7it,w_qda_8it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI","7ºI", "UI"))
 ```
+
 Em suma, para o conjunto de dados do vinho branco, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
 
 * `volatile.acidity` 
@@ -121,4 +124,3 @@ Através do método de QDA, conseguimos chegar a modelos distintos que utilizam 
 
 * Em *vinhos tintos* verificou-se que os atributos mais significativos coincidem na totalidade com aqueles identificados pelo método de LDA, o que permitem colocar mais confiança na nossa inferência anterior.
 * Em *vinhos brancos* a densidade é o atributo com mais impacto na previsão da qualidade, sendo o atributo de álcool ignorado. A acidez e açúcar residual, em conjunto com as densidade, permitem diretamente modelar a qualidade. Estes resultados diferem substancialmente dos resultados utilizando o LDA, especialmente sobre o atributo de densidade, este resultado pé indicativo de uma má separação de classes dentro do data set de vinhos brancos.
-

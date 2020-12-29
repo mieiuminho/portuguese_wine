@@ -8,15 +8,15 @@ library(docopt)
 'Render Script
 
 Usage:
-bin/render [--format=<type>, --output=<file>]
-bin/render (-h | --help)
-bin/render --version
+    bin/render [--format=<type>, --output=<file>]
+    bin/render (-h | --help)
+    bin/render --version
 
 Options:
--h --help          Show this screen.
---version          Show version.
---format=<type>    Document format output [default: html].
---output=<file>    Document name output [default: index.html].
+    -h --help          Show this screen.
+    --version          Show version.
+    --format=<type>    Document format output [default: html].
+    --output=<file>    Document name output [default: index.html].
 
 You should always run this from project root.' -> doc
 
