@@ -10,7 +10,7 @@ Para garantir a consistência, foi aplicada a mesma metodologia presente na sec�
 
 #### Vinho Tinto
 
-Considerando um modelo inicial que contempla todos os atributos, somo capazes de obter a seguinte média de erro. Logo, qualquer modelo mais simples que produz uma média menor ou muito semelhante, desde que mais simples, será preferido.
+Considerando um modelo inicial que contempla todos os atributos, somos capazes de obter a seguinte média de erro. Logo, qualquer modelo mais simples que produz uma média menor do erro ou muito semelhante, desde que mais simples, será preferido.
 
 ```{r echo=FALSE}
 r_qda_total = cross_validation_w_qda(red_wine, 10, quality ~ .)
@@ -39,7 +39,7 @@ qda7it <- c("residual sugar", mean(r_qda_7it))
 col_names_all = c("Ponto de Partido", "1ª Iteração","2ª Iteração","3ª Iteração","4ª Iteração","5ª Iteração","6ª Iteração", "Última Iteração")
 main_df <- data.frame(base_it, qda1it,qda2it,qda3it,qda4it,qda5it,qda6it,qda7it )
 names(main_df) <- col_names_all
-knitr::kable(t(main_df), col.names=c("Atributo Removido","Precisão Obtida"),caption="Resumo da aplicação de backwards feature selection")
+knitr::kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
 Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
@@ -61,7 +61,7 @@ Em suma, para o conjunto de dados do vinho tinto, o modelo que mostrou ter mais 
 
 #### Vinho Branco
 
-De igual forma, partindo de um modelo que considera todos os atributos existentes, aplicamos a mesma metodologia de forma incremental. Inicialmente, com o modelo completo, obtemos o seguinte resultado.
+De igual forma, partindo de um modelo que considera todos os atributos existentes, aplicamos a mesma metodologia de forma incremental. Inicialmente, com o modelo completo, obtemos o seguinte resultado do erro.
 
 ```{r echo=FALSE}
 w_qda_total = cross_validation_w_qda(white_wine, 10, quality ~ .)
@@ -91,7 +91,7 @@ qda8it <- c("pH", mean(w_qda_8it))
 col_names_all = c("Ponto de Partido", "1ª Iteração","2ª Iteração","3ª Iteração","4ª Iteração","5ª Iteração","6ª Iteração","7ª Iteração", "Última Iteração")
 main_df <- data.frame(base_it, qda1it,qda2it,qda3it,qda4it,qda5it,qda6it,qda7it, qda8it )
 names(main_df) <- col_names_all
-knitr::kable(t(main_df), col.names=c("Atributo Removido","Precisão Obtida"),caption="Resumo da aplicação de backwards feature selection")
+knitr::kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
 Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
