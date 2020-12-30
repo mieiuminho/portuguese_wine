@@ -142,7 +142,7 @@ parametros podem ser consultados na tabela anterior.
 results = cross_validation_k_fold_glm(white_wine, k = 10)
 ```
 
-```{r echo=FALSE, fig.cap="Distribuição da precisão do modelo para Vinho Branco"}
+```{r echo=FALSE, out.width="70%", fig.align = 'center', fig.cap="Distribuição da precisão do modelo para Vinho Branco"}
 par(mfcol = c(1, 2))
 
 hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()[4], border = 'white', density = 255, main = "")
@@ -150,7 +150,7 @@ hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()
 boxplot(results$accuracy, col = palette()[4], border = 'black', horizontal = T, xlab = 'Precisão')
 ```
 
-```{r echo=FALSE, fig.cap="Taxas de falsos positivos e negativos do modelo para Vinho Branco"}
+```{r echo=FALSE, out.width="70%", fig.align = 'center', fig.cap="Taxas de falsos positivos e negativos do modelo para Vinho Branco"}
 par(mfcol = c(1, 2))
 
 # Plots of fpr and fnr

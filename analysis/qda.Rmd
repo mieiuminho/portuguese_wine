@@ -1,6 +1,10 @@
 ## Quadratic Discriminant Analysis
 
 ```{r include=FALSE}
+source("../src/load-data.R")
+```
+
+```{r include=FALSE}
 source('../src/cross-validation.R')
 ```
 

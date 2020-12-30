@@ -2,6 +2,7 @@
 
 ```{r include=FALSE}
 source('../src/load-data.R')
+source('../src/cross-validation.R')
 ```
 
 ### Descrição e Funcionamento 
@@ -28,7 +29,9 @@ Algo bastante positivo acerca deste algoritmo que nos levou a testa-lo foi ser a
 
 Por outro lado, por ser um algoritmo extremamente simples, a construção deste algoritmo requer tempo investido na preparação de dados (especialmente tratando dados nulos e categóricos) para obter um modelo robusto que é sensível a *outliers*.
 
-### Caso de estudo: Vinho Tinto
+### Caso de estudo
+
+#### Vinho Tinto
 
 No nosso projeto, começamos por usar o caso do vinho tinto para experimentar a abordagem do algoritmo KNN.
 
@@ -105,7 +108,7 @@ knnPredict <- predict(knnfit,newdata = testing )
 confusionMatrix(knnPredict, testing$quality)
 ```
 
-### Caso de estudo: Vinho Branco
+#### Vinho Branco
 
 Experimentemos a abordagem do algoritmo KNN com o vinho branco agora. Todos os procedimentos foram os mesmos que para o vinho tinto com resultados obtidos ligeiramente diferentes.
 
@@ -194,4 +197,7 @@ algoritmos, mostrando que apesar de haver bastantes verdadeiros positivos e
 falsos negativos, existe um grande número de falsos positivos e verdadeiros
 negativos ao treinar e testar este modelo.
 
-
+```{r}
+r_knn_errors = cross_validation_w_knn(red_wine, 10, 33)
+w_knn_errors = cross_validation_w_knn(white_wine, 10, 25)
+```

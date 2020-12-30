@@ -32,6 +32,7 @@ kable <- function(data, caption=NULL, align=NULL, col.names=NULL) {
 }
 
 knitr::opts_chunk$set(echo=FALSE)
+#knitr::opts_chunk$set(echo=FALSE, out.width = '70%', fig.align = 'center')
 
 # https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf
 palette("default")
@@ -59,14 +60,6 @@ palette(colors_classic_retro)
 ```
 
 # Modelação e Resultados {#sec:modeling}
-
-```{r include=FALSE}
-source("../src/load-data.R")
-red_wine <- red_wine[red_wine$quality > 3,]
-white_wine <- white_wine[white_wine$quality < 9,]
-red_wine[,12] <- as.factor(red_wine[,12])
-white_wine[,12] <- as.factor(white_wine[,12])
-```
 
 ```{r child = 'glm.Rmd'}
 ```
