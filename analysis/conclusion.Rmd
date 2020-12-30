@@ -1,3 +1,27 @@
 # Conclusão {#sec:end}
 
-lorem ipsum sid amet.
+Para além do modelo de regressão logística, que separava o universo de classes em 2, é possível apresentar a seguinte comparação entre os melhores modelos obtidos para o problema de classificação com todas as classes, utilizando os modelos de: kNN, LDA e QDA.
+
+```{r fig.cap="Distribuição dos erros nos vários modelos"}
+par(mfrow=c(1,2))
+boxplot(r_knn_errors, r_lda_7it, r_qda_7it
+    col=c("red","green","yellow") ,
+    ylab="Modelo Utilizado" , xlab="Erro Obtido")
+boxplot(w_knn_errors, w_lda_7it, w_qda_8it
+    col=c("red","green","yellow") ,
+    ylab="Modelo Utilizado" , xlab="Erro Obtido")
+```
+
+Do gráfico acima, conseguimos perceber que os resultados são semelhantes em todos os modelos, pelo que não há nenhum que se distinga de forma significativa em termos de capacidade de previsão. No entanto, todos estes tornaram possível idealizar um conjunto de inferências pertinentes que não são contabilizadas na métricas de previsão.
+
+Através da análise exploratória inicialmente conduzida, foi possível chegar a 3 perguntas basilares sobre o contexto no qual estamos inseridos. Estas questões visam transmitir conhecimento que futuramente pode ser utilizado para que uma empresa possa obter vantagem no mercado dos vinhos. A resposta a estas questões surge diretamente das inferências derivadas a partir dos vários modelos abrangidos. Por meio destas, conseguimos, com um determinado grau de certeza, inferir as características principais de um vinho na previsão da sua qualidade sensorial. As nossas conclusões relativas a essas questões principais são as descritas de seguida:
+
+* **Quais atributos devem ser considerados para melhorar a qualidade de um vinho?**: Relativamente ao vinho branco existe associada uma maior incerteza sobre estas questão. No entanto, chegamos à conclusão de que a qualidade sensorial nos vinhos brancos tende a estar mais centrada à volta da relação entre açúcar residual e acidez volátil do vinho, o que indicia que a tipicidade do vinho, se é verde, maduro ou do douro, possui um fator determinante na classificação do mesmo. Porém, nos vinhos tintos observou-se que, apesar da acidez ser um atributo significativo, o açúcar residual, ao contrário do que sucedeu nos vinhos brancos, não o é, sendo este atributo substituído pelo total de dióxido de enxofre, o que indicia que o processo de fermentação do vinho, utilidade principal desta componente, tem uma maior importância para o consumidor final.
+
+* **Como lidar com a má separação de classes inerente a avaliações sensoriais?**: Para lidarmos com este problema, e como apresentado anteriormente na secção de regressão logística, achamos adequado separar o universo de classes de qualidade em apenas 2. Como é impossível saber a classificação média de cada avaliador, é impossível calcular uma classificação centralizada para cada vinho. O que implica que as classificações mais representadas podem não corresponder à verdade, isto porque cada jurí possui uma tendência de classificação que não é modelada. Ao reduzir o conjunto em 2 somos capazes de reduzir o fator de variabilidade proveniente da tendência de cada júri, permitindo um modelo primitivo da modelação da tendência das classificações. A aplicação desta metodologia provou-se útil no contexto da regressão logística e permitiu obter uma precisão notável. Razão pela qual achamos que, num contexto semelhante, mostra-se vantajoso uma modelação das classificações por meio de discretização.
+
+* **Qual o impacto de atributos não significativos no mercado do vinho?**: Com a informação sobre os atributos mais irrelevantes na previsão da qualidade sensorial, os elementos deste mercado ficam equipados com conhecimento importante sobre conjuntos de pontos fortes em que se devem focar para aumentar a apreciação do mercado do vinho de interesse. No entanto, existem características que, apesar de não significativas para prever a qualidade, são de importância extrema na criação e manutenção da qualidade do vinho, mecanismos estes que não são contemplados por este estudo.
+
+Em suma, achamos que conseguimos obter resultados favoráveis tendo em conta a informação fornecida. No entanto, não podemos deixar de mencionar que o erro da classificação sensorial com base em jurís, utilizada para obtenção do data set, possui um erro irredutível  com um peso considerável. Tendo em conta que se trata da subjetividade humana, há fatores, para além daqueles inerestes ao vinho, que podem afetar a classificação de um jurí. Fatores como: a disposição, classificação média, experiência profissional de cada jurí, não são fornecidos, apesar de poderem ter um impacto significativo na análise dos vinhos.
+
+Como tal, achamos que seria interessante, em trabalhos futuros, aplicar técnicas semelhantes em *data sets* com um erro irredutível menor, e tentar inferir, para além da subjetividade humana, os atributos de maior importância para prever a verdadeira qualidade de um vinho. Também seria muito interessante tentar uma modelação das classificações mais avançada, que tivesse em conta, por exemplo, a classificação média de cada avaliador, bem como outras métricas pertinentes.

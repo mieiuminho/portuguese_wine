@@ -6,6 +6,13 @@ source('../src/cross-validation.R')
 
 ### Descrição & Funcionamento
 
+```{r include=FALSE}
+red_wine <- red_wine[red_wine$quality > 3,]
+white_wine <- white_wine[white_wine$quality < 9,]
+red_wine[,12] <- as.factor(red_wine[,12])
+white_wine[,12] <- as.factor(white_wine[,12])
+```
+
 À semelhança do LDA, o QDA também assume que os atributos são retidados de uma distribuição gaussiana. No entanto, e em contrário ao LDA, assume que existe uma matriz de covariância para cada um das classes considerar, sendo que o LDA considera uma matriz de covariância comum a todas as classes. Por esta razão, o QDA apresenta-se como um método alternativo ao LDA e mais flexível. O LDA, no entanto, é preferido para conjuntos com um número de amostras reduzidas, onde reduzir a variância total é crucial.
 
 ### Casos de Estudo
@@ -123,4 +130,4 @@ Em suma, para o conjunto de dados do vinho branco, o modelo que mostrou ter mais
 Através do método de QDA, conseguimos chegar a modelos distintos que utilizam diferentes atributos para, dentro do seu data set, prever os resultados de forma ótima. Com este modelo, conseguimos modelar os comportamentos e gostos dos provadores de vinho e conseguimos denotar que:
 
 * Em *vinhos tintos* verificou-se que os atributos mais significativos coincidem na totalidade com aqueles identificados pelo método de LDA, o que permitem colocar mais confiança na nossa inferência anterior.
-* Em *vinhos brancos* a densidade é o atributo com mais impacto na previsão da qualidade, sendo o atributo de álcool ignorado. A acidez e açúcar residual, em conjunto com as densidade, permitem diretamente modelar a qualidade. Estes resultados diferem substancialmente dos resultados utilizando o LDA, especialmente sobre o atributo de densidade, este resultado pé indicativo de uma má separação de classes dentro do data set de vinhos brancos.
+* Em *vinhos brancos* a densidade é o atributo com mais impacto na previsão da qualidade, sendo o atributo de álcool ignorado. A acidez e açúcar residual, em conjunto com as densidade, permitem diretamente modelar a qualidade. Estes resultados diferem substancialmente dos resultados utilizando o LDA, especialmente sobre o atributo de densidade, este resultado pé indicativo de uma má separação de classes dentro do _data set_ de vinhos brancos.
