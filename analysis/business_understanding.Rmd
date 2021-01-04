@@ -1,38 +1,74 @@
 ## Compreensão de Negócio
 
-Como referido anteriormente, os _data sets_ encapsulam um total de 12 atributos, sendo que maioria deles são de uma especificidade técnica fora do nosso conhecimento. Pelo que, uma análise mais aprofundada é devida. De seguida, no formato de `Nome, Tipo : Descrição` apresentamos a nossa análise sobre cada atributo, quando conveniente apresentamos abaixo informação específica adicional.
+Como referido anteriormente, os _data sets_ encapsulam um total de 12
+atributos, sendo que maioria deles são de uma especificidade técnica fora do
+nosso conhecimento. Pelo que, uma análise mais aprofundada é devida. De
+seguida, no formato de `Nome, Tipo : Descrição` apresentamos a nossa análise
+sobre cada atributo, quando conveniente apresentamos abaixo informação
+específica adicional.
 
-- `fixed acidity`, numérico: Representa a acidez fixa que é a soma dos ácidos fixos. Tartárico e Málico são os mais importantes. Por princípio, quanto mais elevada for a acidez fixa, mais baixa é a volátil. As bactérias acéticas têm dificuldade em desenvolver-se em meios mais ácidos. [@acidez17]
+- `fixed acidity`, numérico: Representa a acidez fixa que é a soma dos ácidos
+fixos. Tartárico e Málico são os mais importantes. Por princípio, quanto mais
+elevada for a acidez fixa, mais baixa é a volátil. As bactérias acéticas têm
+dificuldade em desenvolver-se em meios mais ácidos [@acidez17].
   
-- `volatile acidity`, numérico: Representa a acidez volátil que é a soma dos ácidos voláteis, que se libertam pela ebulição ou destilação do vinho e traduz o nível de ataque aceto bacteriano ao vinho. Por lei não pode ultrapassar o valor de 1,2 g de ácido acético por litro. [@acidez17]
+- `volatile acidity`, numérico: Representa a acidez volátil que é a soma dos
+ácidos voláteis, que se libertam pela ebulição ou destilação do vinho e
+traduz o nível de ataque aceto bacteriano ao vinho. Por lei não pode
+ultrapassar o valor de 1,2 g de ácido acético por litro [@acidez17].
   
-- `citric acid`, numérico: O ácido cítrico é um ácido orgânico fraco, que se pode encontrar nos citrinos. É usado como conservante natural (antioxidante), dando um sabor ácido e refrescante na preparação de alimentos e de bebidas. [@wikicitrico]
+- `citric acid`, numérico: O ácido cítrico é um ácido orgânico fraco, que se
+pode encontrar nos citrinos. É usado como conservante natural (antioxidante),
+dando um sabor ácido e refrescante na preparação de alimentos e de bebidas
+[@wikicitrico].
   
-- `residual sugar`, numérico: O açúcar residual refere-se aos açúcares que não foram fermentados no vinho acabado. A quantidade de açúcar residual afeta a doçura do vinho. Na união europeia existe uma correspondência entre o açúcar residual e termos de rotulagem. [@wu20]
+- `residual sugar`, numérico: O açúcar residual refere-se aos açúcares que
+não foram fermentados no vinho acabado. A quantidade de açúcar residual afeta
+a doçura do vinho. Na união europeia existe uma correspondência entre o
+açúcar residual e termos de rotulagem [@wu20].
   
-- `chlorides`, numérico: Representa quantidade de sal no vinho, no entanto, concentrações moderadas a grandes de cloretos podem dar ao vinho um sabor salgado que pode desmotivar o consumidor. Quando os níveis desses elementos excedem certos limites, a comercialização e venda do vinho pode não ser permitida em alguns países. [@COLI2015]
+- `chlorides`, numérico: Representa quantidade de sal no vinho, no entanto,
+concentrações moderadas a grandes de cloretos podem dar ao vinho um sabor
+salgado que pode desmotivar o consumidor. Quando os níveis desses elementos
+excedem certos limites, a comercialização e venda do vinho pode não ser
+permitida em alguns países [@COLI2015].
   
-- `free sulfur dioxide`, numérico: Representa a quantidade de dióxido de enxofre não reagido no vinho, por essa razão é capaz de garantir uma ação antioxidante. [@brixx]
+- `free sulfur dioxide`, numérico: Representa a quantidade de dióxido de
+enxofre não reagido no vinho, por essa razão é capaz de garantir uma ação
+antioxidante [@brixx].
   
-- `total sulfur dioxide`, numérico: Representa a quantidade de dióxido de enxofre livre mais a que está associada a outros químicos no vinho. Esta quantidade é regulada, por exemplo, pelos Estados Unidos que limita a concentração total de dióxido de enxofre a 350 mg/L. Na EU, o limite legal é de 150mg/L para vinho tinto e 200mg/L para vinho branco. [@moroney18; @brixx]
+- `total sulfur dioxide`, numérico: Representa a quantidade de dióxido de
+enxofre livre mais a que está associada a outros químicos no vinho. Esta
+quantidade é regulada, por exemplo, pelos Estados Unidos que limita a
+concentração total de dióxido de enxofre a 350 mg/L. Na EU, o limite legal é
+de 150mg/L para vinho tinto e 200mg/L para vinho branco [@moroney18; @brixx].
   
 - `density`, numérico: Quociente entre a massa e volume do vinho.
   
-- `pH`, numérico: A importância da acidez para o vinho não pode ser subestimada, pois contribui com frescor, atua como um agente conservante e ajuda, notavelmente, com a estabilidade microbiana. O pH do vinho tende a estar entre 2 e 4. [@charest19]
+- `pH`, numérico: A importância da acidez para o vinho não pode ser
+subestimada, pois contribui com frescor, atua como um agente conservante e
+ajuda, notavelmente, com a estabilidade microbiana. O pH do vinho tende a
+estar entre 2 e 4 [@charest19].
   
-- `sulphates`, numérico: Aditivo do vinho, age como um anti-microbiano e anti-oxidante. No entanto, não foi detetada informação relevante sobre este atributo.
+- `sulphates`, numérico: Aditivo do vinho, age como um anti-microbiano e
+anti-oxidante. No entanto, não foi detetada informação relevante sobre este
+atributo.
   
 - `alcohol`, numérico: Percentagem de total de álcool no vinho.
   
-- `quality`, nominal: Classe objetivo, varia de 0 a 10 e representa a qualidade do vinho.
+- `quality`, nominal: Classe objetivo, varia de 0 a 10 e representa a
+qualidade do vinho.
 
 ### Percepções Valiosas
 
-A partir das especificações acima, conseguimos encontrar as seguintes percepções valiosas sobre o significado dos atributos na lógica de negócio subjacente.
+A partir das especificações acima, conseguimos encontrar as seguintes
+percepções valiosas sobre o significado dos atributos na lógica de negócio
+subjacente.
 
 - Quanto mais elevada for a `fixed acidity`, menor é a `volatile acidity`.
 - Bactérias acéticas têm mais dificuldade em desenvolver-se em meios ácidos, `pH < 7`.
-- Em Portugal, a `volatile acidity`, por lei, não pode ultrapassar o valor de 1,2 g de ácido acético por litro.
+- Em Portugal, a `volatile acidity`, por lei, não pode ultrapassar o valor de
+1,2 g de ácido acético por litro.
 - `citric acid` representa um conservante natural, dando um sabor ácido e refrescante.
 - A quantidade de `residual sugar` afeta a doçura do vinho de forma diretamente proporcional.
 - `chlorides` elevados podem dar um sabor salgado ao vinho, o que desmotiva o consumidor.

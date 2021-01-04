@@ -57,16 +57,19 @@ names(main_df) <- col_names_all
 kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
-Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
+Como se pode observar pela tabela acima, a aplicação do método de *backwards
+feature selection* permitiu reduzir o erro do nosso modelo na percentagem de
+`r (mean(r_qda_total) - mean(r_qda_7it))*100`.
 
-```{r echo = FALSE}
-print((mean(r_qda_total) - mean(r_qda_7it))*100)
-```
-O que representa uma melhoria significativa, garantindo também um modelo simplista que melhor será capaz de evitar casos de overfitting. Podemos também observar os erros ao longo das várias iterações da seguinte forma:
+```{r out.width='80%', fig.pos='H', fig.align='center', fig.cap="Distribuição dos erros utilizando backwards feature selection"}
 
-```{r fig.cap="Distribuição dos erros utilizando _backwards feature selection_"}
 boxplot(r_qda_total,r_qda_1it,r_qda_2it,r_qda_3it,r_qda_4it,r_qda_5it,r_qda_6it,r_qda_7it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI", "UI"))
+
 ```
+
+O que representa uma melhoria significativa, garantindo também um modelo
+simplista que melhor será capaz de evitar casos de _overfitting_. Podemos também
+observar os erros ao longo das várias iterações na figura 15.
 
 Em suma, para o conjunto de dados do vinho tinto, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
 
@@ -84,9 +87,12 @@ w_qda_total = cross_validation_w_qda(white_wine, 10, quality ~ .)
 mean(w_qda_total)
 ```
 
-Com esta metodologia, fomos capazes de obter a seguinte tabela que resume os resultados obtidos. Denota-se que o atributo mais significativo mostrou-se ser a densidade, enquanto que nos vinhos vermelhos tende a ser a percentagem de álcool.
+Com esta metodologia, fomos capazes de obter na tabela 10 que resume os
+resultados obtidos. Denota-se que o atributo mais significativo mostrou-se ser a
+densidade, enquanto que nos vinhos vermelhos tende a ser a percentagem de
+álcool.
 
-```{r echo=FALSE}
+```{r include=FALSE}
 w_qda_1it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides )
 w_qda_2it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides - alcohol)
 w_qda_3it = cross_validation_w_qda(white_wine, 10, quality ~ . - chlorides - alcohol - citric.acid)
@@ -108,19 +114,18 @@ qda8it <- c("pH", mean(w_qda_8it))
 col_names_all = c("Ponto de Partido", "1ª Iteração","2ª Iteração","3ª Iteração","4ª Iteração","5ª Iteração","6ª Iteração","7ª Iteração", "Última Iteração")
 main_df <- data.frame(base_it, qda1it,qda2it,qda3it,qda4it,qda5it,qda6it,qda7it, qda8it )
 names(main_df) <- col_names_all
-kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
-Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
-
-```{r echo = FALSE}
-print((mean(w_qda_total) - mean(w_qda_8it))*100)
-```
+Como se pode observar pela tabela 10, a aplicação do método de *backwards
+feature selection* permitiu reduzir o erro do nosso modelo na percentagem de
+`r (mean(w_qda_total) - mean(w_qda_8it))*100`.
 
 A melhoria é notável e conseguimos compreender estes dados da seguinte forma:
 
-```{r echo = FALSE, fig.cap="Distribuição dos erros utilizando _backwards feature selection_"}
+```{r echo = FALSE, out.width='75%', fig.pos='H', fig.align='center', fig.cap="Distribuição dos erros utilizando backwards feature selection"}
+
 boxplot(w_qda_total,w_qda_1it,w_qda_2it,w_qda_3it,w_qda_4it,w_qda_5it,w_qda_6it,w_qda_7it,w_qda_8it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI","7ºI", "UI"))
+
 ```
 
 Em suma, para o conjunto de dados do vinho branco, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
@@ -128,6 +133,10 @@ Em suma, para o conjunto de dados do vinho branco, o modelo que mostrou ter mais
 * `volatile.acidity` 
 * `residual.sugar` 
 * `density` 
+
+```{r echo=FALSE}
+kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"), caption="Resumo da aplicação de backwards feature selection")
+```
 
 ### Conclusões
 

@@ -54,30 +54,37 @@ _odds_ tendo em conta o valor atual de $X$, isto porque a equação não é line
 THRESHOLD_GOOD_QUALITY = 6
 ```
 
-No caso dos dados em análise, geramos a partir do campo `quality` uma variável
-binária que indica se  o vinho é de boa ou má qualidade. A escolha da classificação
-vai depender do limiar definido. Pela análise da variabilidade dos dados na
-secção \ref{sec:data} ^[TODO check this] iremos definir como limiar de qualidade do vinho o
-valor `r THRESHOLD_GOOD_QUALITY`. Assim, vinhos com esta classificação ou
-mais serão considerados de boa qualidade.
-
 ```{r echo=FALSE}
 red_wine$is_good <- ifelse(red_wine$quality >= THRESHOLD_GOOD_QUALITY, 1, 0)
 white_wine$is_good <- ifelse(white_wine$quality >= THRESHOLD_GOOD_QUALITY, 1, 0)
 ```
 
+No caso dos dados em análise, geramos a partir do campo `quality` uma variável
+binária que indica se  o vinho é de boa ou má qualidade. A escolha da classificação
+vai depender do limiar definido. Pela análise da variabilidade dos dados na
+secção da estatística descritiva iremos definir como limiar de qualidade do
+vinho o valor `r THRESHOLD_GOOD_QUALITY`. Assim, vinhos com esta
+classificação ou mais serão considerados de boa qualidade.
+
+A classificação foi guardada numa nova coluna chamada `is_good`. O valor 1
+representa que estamos perante um vinho de boa qualidade e o valor representa o
+contrário. A distribuição dos dados neste caso pode ser observado na figura
+\ref{fig:pie_chart_logit}.
+
+\newpage
+
 ```{r echo=FALSE}
 do_pie_chart_with <- function(data, title="Vinho Verde") {
   pie(data
      , labels = paste(c("Mau (", "Bom ("), round(data/sum(data)*100), "%)", sep="")
-     , main = title
+     , sub = title
+     , line = -1.5
      , border = "white"
-     , cex = 0.8
-     , col = palette())
+     , col = palette()[c(1,3)])
 }
 ```
 
-```{r pie_chart_logit, echo=FALSE, fig.cap = "\\label{fig:pie_chart_logit}Gráfico com distribuição binária da qualidade"}
+```{r pie_chart_logit, message=FALSE, warning=FALSE, echo=FALSE, out.width='70%', fig.pos='h!', fig.align='center', fig.cap = "\\label{fig:pie_chart_logit}Gráfico com distribuição binária da qualidade"}
 par(mfrow=c(1,2))
 
 do_pie_chart_with(table(red_wine$is_good)
@@ -86,12 +93,6 @@ do_pie_chart_with(table(red_wine$is_good)
 do_pie_chart_with(table(white_wine$is_good)
             , title="Vinho Branco")
 ```
-
-A classificação foi guardada numa nova coluna chamada `is_good`. O valor 1
-representa que estamos perante um vinho de boa qualidade e o valor representa o
-contrário. A distribuição dos dados neste caso pode ser observado na figura
-\ref{fig:pie_chart_logit} ^[TODO check this].
-
 
 ```{r include=FALSE}
 source('../src/cross-validation.R')
@@ -124,7 +125,7 @@ lista é a seguinte:
 - `chlorides`
 
 ```{r echo=FALSE}
-kable(summary(white_wine_logit_model)$coefficients, col.names=c("Estimate", "Std. Error", "z-value", "Pr(>|z|"), caption = "Modelo Logistico para o Vinho Branco")
+kable(summary(white_wine_logit_model)$coefficients, col.names=c("Estimate", "Std. Error", "z-value", "Pr(>|z|)"), caption = "Modelo Logistico para o Vinho Branco")
 ```
 
 A equação final é apresentada em \ref{eq:white_wine_logit} e o valores dos
@@ -142,7 +143,7 @@ parametros podem ser consultados na tabela anterior.
 results = cross_validation_k_fold_glm(white_wine, k = 10)
 ```
 
-```{r echo=FALSE, out.width="70%", fig.align = 'center', fig.cap="Distribuição da precisão do modelo para Vinho Branco"}
+```{r echo=FALSE, include=FALSE, out.width="70%", fig.align = 'center', fig.cap="Distribuição da precisão do modelo para Vinho Branco"}
 par(mfcol = c(1, 2))
 
 hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()[4], border = 'white', density = 255, main = "")
@@ -150,7 +151,7 @@ hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()
 boxplot(results$accuracy, col = palette()[4], border = 'black', horizontal = T, xlab = 'Precisão')
 ```
 
-```{r echo=FALSE, out.width="70%", fig.align = 'center', fig.cap="Taxas de falsos positivos e negativos do modelo para Vinho Branco"}
+```{r echo=FALSE, include=FALSE, out.width="70%", fig.align = 'center', fig.cap="Taxas de falsos positivos e negativos do modelo para Vinho Branco"}
 par(mfcol = c(1, 2))
 
 # Plots of fpr and fnr
@@ -217,7 +218,7 @@ de `r round(mean(results$accuracy) * 100, 1)`%, com uma taxa de falsos positivos
 `r round(mean(results$false_positive_rate) * 100, 1)`% e de falsos negativos de 
 `r round(mean(results$false_negative_rate) * 100, 1)`%.
 
-```{r echo=FALSE, fig.cap="Distribuição da precisão do modelo para o Vinho Tinto"}
+```{r include=FALSE, fig.cap="Distribuição da precisão do modelo para o Vinho Tinto"}
 par(mfcol = c(1, 2))
 
 hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()[4], border = 'white', density = 255, main = "")
@@ -225,7 +226,7 @@ hist(results$accuracy, xlab = 'Precisão', ylab = 'Frequência', col = palette()
 boxplot(results$accuracy, col = palette()[4], border = 'black', horizontal = T, xlab = 'Precisão')
 ```
 
-```{r echo=FALSE, fig.cap="Taxas de falsos positivos e negativos do modelo para o Vinho Tinto"}
+```{r include=FALSE, fig.cap="Taxas de falsos positivos e negativos do modelo para o Vinho Tinto"}
 par(mfcol = c(1, 2))
 
 # Plots of fpr and fnr
@@ -237,6 +238,12 @@ boxplot(results$false_negative_rate, xlab = '% Falsos Negativos', horizontal = T
 
 ### Conclusões
 
+Através da tabela \ref{tbl:logit_both} é possível concluir que para o vinho
+branco o pH e os sulfatos têm o maior impacto positivo no vinho, ou seja, são
+os que aumentam mais as chances de ser um bom vinho. No sentido oposto, a
+densidade e a acidez volátil são os os atributos que têm o maior impacto
+negativo.
+
 ```{r logit_both, echo=FALSE, warning=FALSE}
 t_white <- tbl_regression(white_wine_logit_model, exponentiate = TRUE)
 
@@ -247,14 +254,8 @@ tbl_merge(
   tab_spanner = c("**Vinho Branco**", "**Vinho Tinto**")
 ) %>% as_kable_extra(booktabs = TRUE,
                      caption = "\\label{tbl:logit_both}Modelo Logit em formato de Odds"
-) %>% kable_styling(latex_options=c("striped"))
+) %>% kable_styling(latex_options=c("striped","hold_position"))
 ```
-
-Através da tabela \ref{tbl:logit_both} ^[TODO check this] é possível concluir
-que para o vinho branco o pH e os sulfatos têm o maior impacto positivo no
-vinho, ou seja, são os que aumentam mais as chances de ser um bom vinho.
-No sentido oposto, a densidade e a acidez volátil são os os atributos que
-têm o maior impacto negativo.
 
 Já no vinho tinto, o álcool e os sulfatos são os atributos com maior impacto
 positivo e a acidez volátil e os cloretos são os atributos com maior impacto negativo nas chances de ser um vinho de boa qualidade.

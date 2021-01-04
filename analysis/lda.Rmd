@@ -10,7 +10,7 @@ source('../src/cross-validation.R')
 
 ### Descrição & Funcionamento
 
-Apesar das suas vantagens, a regressão logística apresenta maus resultado para classes mal separadas, pos este torna-se bastante instável. O LDA tende a ser mais estável que a regressão logística e é normalmente utilizado para problemas de classificação com mais de duas classes de resposta. 
+Apesar das suas vantagens, a regressão logística apresenta maus resultado para classes mal separadas, pos este torna-se bastante instável. O LDA tende a ser mais estável que a regressão logística e é normalmente utilizado para problemas de classificação com mais de duas classes de resposta.
 
 No algoritmo de LDA, é assumido que os atributos são retirados de uma distribuição normal, com médias específicas por classe e um matriz de covariância comum entre todos os atributos.
 
@@ -28,10 +28,10 @@ Considerando um modelo inicial que contempla todos os atributos, somos capazes d
 r_lda_total = cross_validation_w_lda(red_wine, 10, quality ~ .)
 mean(r_lda_total)
 ```
+
 Abaixo apresentado surge a tabela relativa aos resultados obtidos em cada iteração, indicando a respectiva iteração, atributo removido e média do modelo resultante.
 
-
-```{r echo=FALSE}
+```{r}
 r_lda_1it = cross_validation_w_lda(red_wine, 10, quality ~ .  - fixed.acidity )
 r_lda_2it = cross_validation_w_lda(red_wine, 10, quality ~ . - fixed.acidity - residual.sugar )
 r_lda_3it = cross_validation_w_lda(red_wine, 10, quality ~ . - fixed.acidity - residual.sugar - pH )
@@ -54,33 +54,40 @@ names(main_df) <- col_names_all
 kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
-Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
+Como se pode observar pela tabela acima, a aplicação do método de *backwards
+feature selection* permitiu reduzir o erro do nosso modelo na percentagem de `r 100 * (mean(r_lda_total) - mean(r_lda_7it))`.
 
-```{r echo = FALSE}
-print((mean(r_lda_total) - mean(r_lda_7it))*100)
-```
+O que representa uma diferença insignificante na precisão do modelo. No
+entanto, obtemos um modelo muito mais simples que produz resultos muito
+similares, o que nos indica que este é o conjunto de variáveis explicativas da
+variação da qualidade. Podemos observar os resultados da variação dos erros da
+seguinte forma, que nos permitem perceber que, mesmo alterando atributos, os
+erros continuam iguais.
 
-O que representa uma diferença insignificante na precisão do modelo. No entanto, obtemos um modelo muito mais simples que produz resultos muito similares, o que nos indica que este é o conjunto de variáveis explicativas da variação da qualidade. Podemos observar os resultados da variação dos erros da seguinte forma, que nos permitem perceber que, mesmo alterando atributos, os erros continuam iguais.
+```{r out.width='70%', fig.align='center', fig.cap="Distribuição dos erros utilizando backwards features selection"}
 
-```{r fig.cap="Distribuição dos erros utilizando _backwards features selection_"}
 boxplot(r_lda_total,r_lda_1it,r_lda_2it,r_lda_3it,r_lda_4it,r_lda_5it,r_lda_6it,r_lda_7it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI", "UI"))
+
 ```
 
-Em suma, para o conjunto de dados do vinho tinto, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
+Em suma, para o conjunto de dados do vinho tinto, o modelo que mostrou ter mais
+sucesso foi aquele que apenas considerava os seguintes atributos como
+significativos:
 
-* `volatile.acidity` 
-* `total.sulfur.dioxide` 
-* `sulphates` 
-* `alcohol` 
+* `volatile.acidity`
+* `total.sulfur.dioxide`
+* `sulphates`
+* `alcohol`
 
 #### Vinho Branco
 
-De igual forma, partindo de um modelo que considera todos os atributos existentes, aplicamos a mesma metodologia de forma incremental. Inicialmente, com o modelo completo, obtemos o seguinte resultado do erro.
-
 ```{r}
 w_lda_total = cross_validation_w_lda(white_wine, 10, quality ~ .)
-mean(w_lda_total)
 ```
+
+De igual forma, partindo de um modelo que considera todos os atributos
+existentes, aplicamos a mesma metodologia de forma incremental. Inicialmente,
+com o modelo completo, obtemos um resultado do erro de  `r mean(w_lda_total)`.
 
 Com esta metodologia, fomos capazes de obter a seguinte tabela que resume os resultados obtidos.
 
@@ -107,23 +114,24 @@ names(main_df) <- col_names_all
 kable(t(main_df), col.names=c("Atributo Removido","Erro Obtido"),caption="Resumo da aplicação de backwards feature selection")
 ```
 
-Como se pode observar pela tabela acima, a aplicação do método de *backwards feature selection* permitiu reduzir o erro do nosso modelo na percentagem de:
+Como se pode observar pela tabela acima, a aplicação do método de *backwards
+feature selection* permitiu reduzir o erro do nosso modelo na percentagem de `r 100 * (mean(w_lda_total) - mean(w_lda_7it))`.
 
-```{r echo = FALSE}
-print((mean(w_lda_total) - mean(w_lda_7it))*100)
-```
+Como sucede no caso do LDA no data set do vinho tinto, a diferença é
+insignificante, pelo que preferimos o modelo mais simples. Podemos compreender
+esta variação nos erros pelo seguinte gráfico.
 
-Como sucede no caso do LDA no data set do vinho tinto, a diferença é insignificante, pelo que preferimos o modelo mais simples. Podemos compreender esta variação nos erros pelo seguinte gráfico.
+```{r out.width='70%', fig.align='center', fig.cap="Distribuição dos erros utilizando backwards feature selection"}
 
-```{r echo = FALSE, fig.cap="Distribuição dos erros utilizando _backwards feature selection_"}
 boxplot(w_lda_total,w_lda_1it,w_lda_2it,w_lda_3it,w_lda_4it,w_lda_5it,w_lda_6it,w_lda_7it, names = c("PP", "1ªI","2ªI","3ªI","4ªI","5ªI","6ªI", "UI"))
+
 ```
 
 Em suma, para o conjunto de dados do vinho branco, o modelo que mostrou ter mais sucesso foi aquele que apenas considerava os seguintes atributos como significativos:
 
-* `volatile.acidity` 
-* `residual.sugar` 
-* `sulphates` 
+* `volatile.acidity`
+* `residual.sugar`
+* `sulphates`
 * `alcohol`
 
 ### Conclusões
@@ -133,4 +141,6 @@ Através do método de LDA, conseguimos chegar a modelos distintos que utilizam 
 * Em *vinhos tintos* o nível de álcool é o atributo com mais impacto na previsão da qualidade, sendo o atributo de densidade ignorado. O dióxido de enxofre e sulfatos tem um impacto direto na qualidade sensorial do vinho. Denota-se também que a quantidade de sulfato, que se considerava ser apenas para efeitos anti-oxidantes, tem impacto na qualidade, o que pode indiciar uma alteração do sabor.
 * Em *vinhos brancos* o nível de álcool é o atributo com mais impacto na previsão da qualidade, a única diferença de atributos significativos responde ao açúcar residual. Nos vinhos brancos, este atributo é significativo, enquanto que nos vinhos tintos é preferido o dióxido de enxofre total.
 
-Os resultados acima permitem chegar à conclusão que em vinhos brancos o mais importante é a doçura e acidez. Enquanto que em vinhos tintos, os fatores mais importantes são o nível do álcool e quantidade de dióxido de enxofre.
+Os resultados acima permitem chegar à conclusão que em vinhos brancos o mais
+importante é a doçura e acidez. Enquanto que em vinhos tintos, os fatores mais
+importantes são o nível do álcool e quantidade de dióxido de enxofre.

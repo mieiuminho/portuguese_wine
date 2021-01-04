@@ -60,10 +60,10 @@
     },
     "RcppEigen": {
       "Package": "RcppEigen",
-      "Version": "0.3.3.9.1",
+      "Version": "0.3.3.7.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "ddfa72a87fdf4c80466a20818be91d00"
+      "Hash": "c6faf038ba4346b1de19ad7c99b8f94a"
     },
     "SQUAREM": {
       "Package": "SQUAREM",
@@ -438,10 +438,10 @@
     },
     "jsonlite": {
       "Package": "jsonlite",
-      "Version": "1.7.2",
+      "Version": "1.7.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "98138e0994d41508c7a6b84a0600cfcb"
+      "Hash": "1ec84e070b88b37ed169f19def40d47c"
     },
     "kableExtra": {
       "Package": "kableExtra",
@@ -676,17 +676,17 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "0.4.9",
+      "Version": "0.4.10",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "9d7aba7bed9a79e2403b4777428a2b12"
+      "Hash": "599df23c40a4fce9c7b4764f28c37857"
     },
     "rmarkdown": {
       "Package": "rmarkdown",
-      "Version": "2.5",
+      "Version": "2.6",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "20a0a94af9e8f7040510447763aab3e9"
+      "Hash": "bc4bac38960b446c183957bfd563e763"
     },
     "rpart": {
       "Package": "rpart",
@@ -802,10 +802,10 @@
     },
     "tinytex": {
       "Package": "tinytex",
-      "Version": "0.27",
+      "Version": "0.28",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "264b4a31d35bb6833566a7763356ab63"
+      "Hash": "ff73961a77fba606fbf944dc3468e5b9"
     },
     "usethis": {
       "Package": "usethis",

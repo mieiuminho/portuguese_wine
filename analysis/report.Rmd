@@ -28,11 +28,11 @@ library(gtsummary)
 
 kable <- function(data, caption=NULL, align=NULL, col.names=NULL) {
   knitr::kable(data, caption = caption, align = align, col.names = col.names, booktabs = TRUE, digits = 3) %>% 
-    kable_styling(latex_options=c("striped"))
+    kable_styling(latex_options=c("striped","hold_position"))
 }
 
 knitr::opts_chunk$set(echo=FALSE)
-#knitr::opts_chunk$set(echo=FALSE, out.width = '70%', fig.align = 'center')
+#knitr::opts_chunk$set(echo=FALSE, out.width = '70%', fig.pos = "!ht", fig.align = 'center', out.extra = "")
 
 # https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf
 palette("default")

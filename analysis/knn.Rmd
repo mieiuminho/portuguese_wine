@@ -5,7 +5,7 @@ source('../src/load-data.R')
 source('../src/cross-validation.R')
 ```
 
-### Descrição e Funcionamento 
+### Descrição e Funcionamento
 
 Assumindo-se que se tem vários grupos de amostras classificadas e que os itens presentes nos grupos são de natureza homogênea. Tem-se um exemplo de uma amostra que precisa de ser classificada num desses vários grupos. O algoritmo dos K vizinhos mais próximos (KNN) pode ser usado para resolver tal problema já que consiste em armazenar todos os casos disponíveis e classificar os novos casos pela maioria dos votos dos seus K vizinhos. Assim, este algoritmo consegue separar os dados sem classificação em grupos bem definidos.
 
@@ -13,11 +13,11 @@ Assumindo-se que se tem vários grupos de amostras classificadas e que os itens 
 
 A seguir está uma distribuição de círculos azuis (CA) e retângulos vermelhos (RV).
 
-![](images/knn_1.png)
+![](../images/knn_1.png){ width=8cm }
 
 Pretende-se descobrir a classe da estrela verde que pode ser apenas CA ou RV. O "K" neste algoritmo é o número de vizinhos mais próximos nos quais desejamos votar. Assim, por exemplo, digamos K=4 e faremos um círculo com a estrela verda para incluir 4 pontos de dados no plano, conforme a figura seguinte:
 
-![](images/knn_2.png)
+![](../images/knn_2.png){ width=8cm }
 
 Os 4 pontos mais próximos da estrela verde são todos CA, logo com um bom nível de confiança, pode-se afirmar que a estrela verde deve pertencer à classe CA.
 
@@ -35,10 +35,9 @@ Por outro lado, por ser um algoritmo extremamente simples, a construção deste 
 
 No nosso projeto, começamos por usar o caso do vinho tinto para experimentar a abordagem do algoritmo KNN.
 
-Em primeiro lugar repartimos os dados em dados de treino e em dados de teste usando a função *createDataPartition()* da biblioteca *caret*
+Em primeiro lugar repartimos os dados em dados de treino e em dados de teste usando a função `createDataPartition()` da biblioteca `caret`.
 
 ```{r, include=FALSE}
-
 set.seed(300)
 ##classification
 red_wine$quality <- factor(red_wine$quality)
@@ -64,7 +63,7 @@ prop.table(table(testing$quality)) * 100
 prop.table(table(red_wine$quality)) * 100
 ```
 
-Como já referido o algoritmo KNN requer que as variáveis sejam normalizadas ou escaladas. Optamos por as centralizar e escalar com métodos da biblioteca *caret*.
+Como já referido o algoritmo KNN requer que as variáveis sejam normalizadas ou escaladas. Optamos por as centralizar e escalar com métodos da biblioteca `caret`.
 
 ```{r, include=FALSE}
 trainX <- training[,names(training) != "quality"]
@@ -87,13 +86,13 @@ knnfit <-train(quality ~.,
              data = training,
              tuneLength = 20,
              preProcess = c("center","scale"))
-  
+
 knnfit
 ```
 
-Podemos observar no gráfico seguinte que o melhor valor de K para este dataset é K=33 com uma acurácia de 0.5746151. 
+Podemos observar no gráfico seguinte que o melhor valor de K para este dataset é K=33 com uma acurácia de 0.5746151.
 
-```{r}
+```{r out.width='70%', fig.align='center'}
 plot(knnfit)
 ```
 
@@ -172,7 +171,7 @@ knnfit_white_wine
 Pelo gráfico seguinte podemos concluir que o melhor valor de K para este
 _dataset_ é K=25 com uma precisão de 0.5470733.
 
-```{r}
+```{r out.width='70%', fig.align='center'}
 plot(knnfit_white_wine)
 ```
 
@@ -180,7 +179,7 @@ Tal e qual como ocorria no vinho tinto, através da matriz de confusão podemos 
 
 Usando como exemplo o número que se encontra na linha 5 e na coluna 5, este número refere-se a 208 casos verdadeiros positivos, ou seja a 122 casos que previram um vinho de qualidade 5 e realmente aconteceu. Já o número da linha 5 e coluna 6 refere-se a 120 casos que previram um vinho de qualidade 5 mas o resultado é um vinho de qualidade 6, tornando-se um falso positivo (relativo a 5). Já na linha 6, coluna 5 o número 148 é um falso negativo porque não se preveu 5 (preveu-se 6) mas o resultado foi 5.
 
-Também é confirmado que a precisão do modelo é 0.5556. 
+Também é confirmado que a precisão do modelo é 0.5556.
 
 ```{r}
 knnPredict_white_wine <- predict(knnfit_white_wine,newdata = testing_white_wine )

@@ -2,7 +2,7 @@
 
 Para além do modelo de regressão logística, que separava o universo de classes em 2, é possível apresentar a seguinte comparação entre os melhores modelos obtidos para o problema de classificação com todas as classes, utilizando os modelos de: kNN, LDA e QDA.
 
-```{r fig.cap="Distribuição dos erros nos vários modelos"}
+```{r out.width='80%', fig.align='center', fig.cap="Distribuição dos erros nos vários modelos"}
 par(mfrow=c(1,2))
 boxplot(r_knn_errors, r_lda_7it, r_qda_7it,
     col=palette()[3:6],
